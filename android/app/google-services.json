@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "909195951353",
+    "project_id": "vltxlotterix",
+    "storage_bucket": "vltxlotterix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909195951353:android:b93dc418c3d890b40b3628",
+        "android_client_info": {
+          "package_name": "com.example.vltxlotterix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909195951353-cq94ntpejl48h6h6quu191urr06pte4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdxLA-Y-NuOVAS97qN2nmpR80Tm9k3jLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909195951353-cq94ntpejl48h6h6quu191urr06pte4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909195951353:android:4636e4df0e46da3f0b3628",
+        "android_client_info": {
+          "package_name": "com.vltx.ox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909195951353-cq94ntpejl48h6h6quu191urr06pte4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdxLA-Y-NuOVAS97qN2nmpR80Tm9k3jLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909195951353-cq94ntpejl48h6h6quu191urr06pte4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
