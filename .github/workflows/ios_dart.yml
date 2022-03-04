@@ -22,6 +22,8 @@ jobs:
         with:
           flutter-version: '2.10.2'      
       - run: flutter build apk --debug --split-per-abi
+      - name: CocoaPod Install
+        run: pod install
       - run: |
           flutter build ios --no-codesign
           cd build/ios/iphoneos
