@@ -22,8 +22,8 @@ jobs:
         with:
           flutter-version: '2.10.2'      
       - run: flutter build apk --debug --split-per-abi
-      - name: CocoaPod Install
-        run: pod install
+      - name: build ios
+        run: flutter build ios
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
