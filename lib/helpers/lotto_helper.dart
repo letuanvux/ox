@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter/rendering.dart';
-
 import '../models/bridge.dart';
 import '../models/bridge_number.dart';
 import '../models/long_number.dart';
+import '../models/max_miss_day.dart';
 import '../models/prize.dart';
 import '../models/prize_number.dart';
 
@@ -57,8 +56,8 @@ class LottoHelper {
   }
 
   // Lay danh sach so lau ra
-  static Future<List<LongNumber>> getLongNumbers(
-      List<Prize> prizes, int min, int max) async {
+  static Future<List<LongNumber>> getLongNumbers(List<Prize> prizes, int min,
+      int max, List<MaxMissDay> maxmissDays) async {
     List<LongNumber> lstItems = [];
     for (var i = min; i <= max; i++) {
       String ab = i <= 9 ? '0' + i.toString() : i.toString();
@@ -75,9 +74,74 @@ class LottoHelper {
       }
       lstItems.add(LongNumber(number: ab, maxdays: prizes.length, days: days));
     }
+    if (maxmissDays.isNotEmpty) {
+      // Cap nhat Max Days
+      lstItems.forEach((element) => element.maxdays =
+          maxmissDays.where((o) => o.number == element.number).first.maxdays);
+    }
     return lstItems;
   }
 
+  static Future<List<MatchNumber>> getDayNumbers(List<Prize> prizes) async {
+    List<MatchNumber> lstItems = [];
+
+    for (var i = 0; i < prizes.length; i++) {
+      if (i == 0) {
+        var numbers = getPrizeNumbers(prizes[i].json);
+        for (var item in numbers) {
+          if (lstItems.where((element) => element.number == item.number.substring(item.number.length - 2)).length == 0)
+          {
+            lstItems.add(MatchNumber(
+              number: item.number.substring(item.number.length - 2), days: 1));
+          }          
+        }
+      } else {
+        var lst = lstItems.where((element) => element.days >= i).toList();
+        if (lst.length > 0) {
+          List<PrizeNumber> numbers = getPrizeNumbers(prizes[i].json);
+          for (var item in lstItems) {
+            if (numbers.where((o) => o.number == item.number).length > 0) {
+              // Cap nhat Days
+              item.days += 1;
+            }
+          }
+        } else {
+          break;
+        }
+      }
+    }
+    lstItems.sort((a, b) => b.days.compareTo(a.days));
+    return lstItems;
+  }
+
+  static Future<List<TripleNumber>> getTripleNumbers(
+      List<Prize> prizes, int min, int max) async {
+    List<PrizeNumber> prizeNumbers = [];
+    List<TripleNumber> lstItems = [];
+
+    for (Prize item in prizes) {
+      prizeNumbers.addAll(getPrizeNumbers(item.json));
+    }
+
+    // Lay danh sach nhung so co do dai 3 so
+    prizeNumbers =
+        prizeNumbers.where((element) => element.number.length > 2).toList();
+
+    for (var i = min; i <= max; i++) {
+      String ab = i <= 9 ? '0' + i.toString() : i.toString();
+
+      lstItems.add(TripleNumber(
+        number: ab,
+        items: prizeNumbers
+            .where((element) => element.number.endsWith(ab))
+            .map((item) => item.number
+                .substring(item.number.length - 3, item.number.length - 2))
+            .toList(),
+      ));
+    }
+
+    return lstItems;
+  }
 
   // Check match number
   static bool isMatch(String value, String number) {
@@ -381,5 +445,4 @@ class LottoHelper {
     }
     return bridges;
   }
-
 }

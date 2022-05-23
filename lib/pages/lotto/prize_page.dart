@@ -32,25 +32,26 @@ class _PrizePageState extends State<PrizePage> {
     setState(() {
       isLoading = true;
     });
-   
+    
     var newItems = await itemService.search(widget.lotto!.id, page, limit: 20);
     if (newItems.isNotEmpty) {
       lstItems.addAll(newItems);
     }
+    
     setState(() {
-      isLoading = false;
       allloaded = newItems.isEmpty;
+      isLoading = false;
     });
   }
 
   @override
   void initState() {
-    super.initState(); 
+    super.initState();
     loadData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
               _scrollController.position.maxScrollExtent &&
-          !isLoading) {        
+          !isLoading) {
         page++;
         loadData();
       }
@@ -105,17 +106,35 @@ class _PrizePageState extends State<PrizePage> {
         builder: (context, constraints) {
           return Stack(
             children: [
-              if (isLoading) ...[
-                LoadingProgress(),
-              ],
               ListView.builder(
-                padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   controller: _scrollController,
                   itemBuilder: (context, index) {
                     if (index < lstItems.length) {
                       return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (index == 0) ...[
+                            RichText(
+                              text: TextSpan(
+                                  text: '${widget.lotto!.code} |',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black54,
+                                  ),
+                                  children: [
+                                TextSpan(
+                                  text: ' ${widget.lotto!.name}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.black54,
+                                  ),
+                                )
+                              ])), 
                             AppSearch(
                               text: keyword,
                               onChanged: (text) =>
@@ -140,17 +159,16 @@ class _PrizePageState extends State<PrizePage> {
                                 DateFormat('dd-MM-yyyy')
                                     .format(lstItems[index].drawtime),
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primary),
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
                               ),
                               title: Text(lstItems[index].code),
                               subtitle: Text(
                                 lstItems[index].numbers ?? '',
                                 textAlign: TextAlign.justify,
                               ),
-                              onTap: () => Navigator.of(context)
-                                  .push(MaterialPageRoute(
+                              onTap: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => PrizeDetailPage(
                                             lotto: widget.lotto!,
                                             item: lstItems[index],
@@ -171,6 +189,9 @@ class _PrizePageState extends State<PrizePage> {
                     }
                   },
                   itemCount: lstItems.length + (allloaded ? 1 : 0)),
+              if (isLoading) ...[
+                LoadingProgress(),
+              ],
             ],
           );
         },

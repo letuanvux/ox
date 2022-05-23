@@ -17,9 +17,11 @@ class LottoLongNumberCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Cap nhat Max Days
-    if (maxDays.isNotEmpty)
-    {
-      items.forEach((element) => element.maxdays = maxDays.where((o) => o.number == element.number).first.maxdays ,);
+    if (maxDays.isNotEmpty) {
+      items.forEach(
+        (element) => element.maxdays =
+            maxDays.where((o) => o.number == element.number).first.maxdays,
+      );
     }
 
     return Column(

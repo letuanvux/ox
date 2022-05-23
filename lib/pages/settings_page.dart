@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../configs/routes.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -16,7 +18,7 @@ class _SettingsPageState extends State<SettingsPage> {
         toolbarHeight: 40,
         leading: IconButton(
           icon: Icon(Icons.account_circle_outlined, color: Colors.blueGrey[300]),
-          onPressed: () => Scaffold.of(context).openDrawer(),          
+          onPressed: () => Navigator.pushNamed(context, VLTxRoutes.profile),          
         ),
         leadingWidth: 30,
         title: const Text(

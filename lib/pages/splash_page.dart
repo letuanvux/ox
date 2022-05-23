@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import '../constants.dart';
 import 'home_page.dart';
+import 'widgets/app_background.dart';
+import 'widgets/app_logo.dart';
 
 //import 'app.dart';
 
@@ -16,6 +19,7 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
+    
     super.initState();
     Future.delayed(
         const Duration(seconds: 5),
@@ -31,52 +35,86 @@ class _SplashPageState extends State<SplashPage> {
     final size = MediaQuery.of(context).size; 
     
     return Scaffold(
+      extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: RichText(
+            text: TextSpan(
+                text: "Let's make ",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
+                children: [
+              TextSpan(
+                text: 'your dreams',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              TextSpan(
+                text: ' come',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black54,
+                ),
+              ),
+              TextSpan(
+                text: ' true',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              )
+            ])),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          shadowColor: Theme.of(context).colorScheme.primary.withOpacity(.24),          
+        ),
       body : Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/bg_cloud.jpg"),
-                fit: BoxFit.cover)
-              )
-            ),
+          AppBackground(image: bgImage),
           SafeArea(
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [ 
-                  Center(
-                    child: SizedBox(
-                      width: size.width / 5,
-                      child: FittedBox(
-                        fit: BoxFit.contain,
-                        child: Row(
-                          children: const [
-                            Text("Lotte",
-                                style: TextStyle(
-                                    color: Color(0xff010036),
-                                    fontWeight: FontWeight.w600)),
-                            Text("rix",
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.w600)),
-                          ],
-                        ),
-                      )),
-                  ),                                                  
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset("assets/images/logo_red.png", scale: 1),
-                        const SizedBox(height: 10),                                               
-                      ],
-                    ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [                          
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 250, child: AppLogo()),                      
+                      SizedBox(
+                        width: size.width / 3,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Row(
+                            children: [
+                              Text("Lotte",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(221, 19, 19, 19),
+                                      fontWeight: FontWeight.w600)),
+                              Text("rix",
+                                  style: TextStyle(
+                                      color: Theme.of(context).colorScheme.primary,
+                                      fontWeight: FontWeight.w600)),
+                            ],
+                          ),
+                        )),
+                                                                 
+                    ],
                   ),
-                  RichText(
+                ),
+                SizedBox(height: 50,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RichText(
                     text: const TextSpan(
                       style: TextStyle(
                             color: Colors.white,
@@ -93,9 +131,9 @@ class _SplashPageState extends State<SplashPage> {
                         ),                  
                       ],
                     ),
-                  ), 
-                ],
-              ),
+                  ),
+                ), 
+              ],
             ),
           ), 
         ],

@@ -15,7 +15,7 @@ class PrizeNumber {
       group: int.parse(json['group'] ?? '0'),
       position: int.parse(json['position'] ?? '0'),
       number: json['number'],
-      isoption: json['isoption'] ?? false,
+      isoption: json['isoption'] =='true' ? true : false,
     );
   }
 

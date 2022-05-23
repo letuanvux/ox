@@ -121,6 +121,16 @@ class PrizeService {
             .toList());
   }
 
+  Future<List<Prize>> getByDate(DateTime drawtime) {    
+    return collects
+        .where('drawtime', isEqualTo: drawtime)
+        .orderBy('code', descending: true)
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((document) => Prize.fromJson(document.data()))
+            .toList());
+  }
+
   //Get all courses for instructor as Future
   Future<List<Prize>> whereAsFuture(String lotto) {
     return collects.where('lotto', isEqualTo: lotto).get().then((snapshot) =>
@@ -157,16 +167,16 @@ class PrizeService {
         .where('lotto', isEqualTo: lotto)
         .orderBy('drawtime', descending: true)
         .orderBy('code', descending: true)
-        .snapshots()        
+        .snapshots()
         .map((snapshot) => snapshot.docs
-        .skip(limit * (page - 1))
-        .take(limit)
-        .map((document) => Prize.fromJson(document.data()))
+            .skip(limit * (page - 1))
+            .take(limit)
+            .map((document) => Prize.fromJson(document.data()))
             .toList());
   }
 
   Future<List<Prize>> search(String lotto, int page, {int limit = 10}) async {
     var items = paging(lotto, page, limit: limit);
-    return await items.first;
+    return items.first;
   }
 }

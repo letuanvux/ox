@@ -37,7 +37,7 @@ class PrizeCard extends StatelessWidget {
               if (item.code.isNotEmpty)
                 TableRow(
                     decoration: BoxDecoration(
-                      color: Color(0xff6ac291),
+                      color: Color.fromARGB(255, 193, 226, 194),
                     ),
                     children: [
                       const Center(
@@ -89,7 +89,7 @@ class PrizeCard extends StatelessWidget {
                           ])
                     : TableRow(
                         decoration: BoxDecoration(
-                          color: i % 2 == 0 ? Color(0xff6ac291) : Colors.white,
+                          color: i % 2 == 0 ? Color.fromARGB(255, 193, 226, 194) : Colors.white,
                         ),
                         children: [
                             Center(

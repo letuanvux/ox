@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'dashboard_page.dart';
+import 'lotto/calendar_page.dart';
 import 'lotto/lotto_page.dart';
 import 'settings_page.dart';
+import 'chat/chat_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ Key? key }) : super(key: key);
@@ -13,10 +16,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPage = 0;
   final _pages = const [
+    DashBoardPage(),
+    CalendarPage(),
     LottoPage(),
-    LottoPage(),
-    LottoPage(),
-    LottoPage(),
+    ChatPage(),
     SettingsPage(),
   ];
 
@@ -45,11 +48,11 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home), label: "Home"),  
           BottomNavigationBarItem(
-              icon: Icon(Icons.list_outlined), label: "Lottos"), 
+              icon: Icon(Icons.calendar_month), label: "Calendar"), 
           BottomNavigationBarItem(
               icon: Icon(Icons.catching_pokemon_outlined), label: "Lottos"),           
           BottomNavigationBarItem(
-              icon: Icon(Icons.notifications), label: "Notifications"),
+              icon: Icon(Icons.message), label: "Messages"),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: "Settings"),
         ],
