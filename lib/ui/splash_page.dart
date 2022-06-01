@@ -49,7 +49,6 @@ class _SplashPageState extends State<SplashPage> {
                 text: 'dẫn lối',
                 style: TextStyle(
                   fontSize: 14,
-                  fontWeight: FontWeight.w500,
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),              

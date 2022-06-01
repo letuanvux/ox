@@ -9,6 +9,7 @@ import '../themes.dart';
 
 import 'package:country_pickers/country_pickers.dart';
 
+import 'components/lotto_card.dart';
 import 'models/lotto.dart';
 import 'prize_detail_page.dart';
 import 'services/lotto_service.dart';
@@ -177,32 +178,17 @@ class _LottoPageState extends State<LottoPage> {
                                   height: 5,
                                 )
                               ],
-                              Container(
-                                decoration: boxDecoration,
-                                child: ListTile(
-                                  leading: CountryPickerUtils.getDefaultFlagImage(
-                                      CountryPickerUtils.getCountryByIsoCode(
-                                          lstItems[index].country)),
-                                  title: Text(lstItems[index].code),
-                                  subtitle: Text(lstItems[index].name,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[600],
-                                          fontWeight: FontWeight.normal,
-                                          fontStyle: FontStyle.italic)),
-                                  onTap: () async {
-                                    var prize = await prizeService.getLastest(lstItems[index].id);
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => PrizeDetailPage(lotto: lstItems[index],item: prize,)
-                                      )
-                                    );
-                                  }, 
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              )
+                              LottoCard(
+                                item: lstItems[index],
+                                onTap: () async {
+                                  var prize = await prizeService.getLastest(lstItems[index].id);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PrizeDetailPage(lotto: lstItems[index],item: prize,)
+                                    )
+                                  );
+                                }, 
+                              ),                              
                             ],
                           );
                         })

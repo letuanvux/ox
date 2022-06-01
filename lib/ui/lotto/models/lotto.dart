@@ -3,10 +3,15 @@ class Lotto {
   final String country;
   final String code;
   final String name;
+  final String imgUrl;
   final int min;
   final int max;
   final String drawtime;
   final bool isball;
+  final int rating;
+  final int noOfRating;
+  final bool isFavorite;
+  final bool isFeatured;
 
   Lotto({
     required this.country,
@@ -14,9 +19,14 @@ class Lotto {
     required this.name,
     required this.min,
     required this.max,
+    this.imgUrl = '',
     this.drawtime = '',
     this.id = '',
     this.isball = false,
+    this.rating = 0,
+    this.noOfRating = 0,
+    this.isFavorite = false,
+    this.isFeatured = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,7 +38,10 @@ class Lotto {
       'min': min,
       'max': max,
       'drawtime': drawtime,
-      'isball': isball,
+      'rating': rating,
+      'noOfRating': noOfRating,
+      'isFavorite': isFavorite,
+      'isFeatured': isFeatured,
     };
   }
 
@@ -42,6 +55,10 @@ class Lotto {
       max: json['max'] ?? 0,
       drawtime: json['drawtime'] ?? '',
       isball: json['isball'] ?? false,
+      rating: json['rating'] ?? 0,
+      noOfRating: json['noOfRating'] ?? 0,
+      isFavorite: json['isFavorite'] ?? false,
+      isFeatured: json['isFeatured'] ?? false,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../configs/routes.dart';
@@ -7,7 +8,10 @@ import '../commons/section_title.dart';
 import '../lotto/models/lotto.dart';
 import '../lotto/services/lotto_service.dart';
 import '../themes.dart';
+import 'components/feature_card.dart';
+import 'components/comming_tile.dart';
 import 'components/event_meeting_tile.dart';
+import 'components/lastest_tile.dart';
 import 'components/lotto_drawer.dart';
 import 'data/data.dart';
 
@@ -50,8 +54,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () =>
                 Scaffold.of(context).openDrawer(), // <-- Opens drawer.
           );
-        }),
-        leadingWidth: 20,
+        }),        
         backgroundColor: Colors.white,
         toolbarHeight: 40,
         title: RichText(
@@ -105,15 +108,26 @@ class _HomePageState extends State<HomePage> {
               desc: 'mới nhất',
               press: () {},
             ),
-
+            LastestTile(items: lottos,),
             // 3. Danh sap sap toi
             SectionTitle(
-            title: 'Xổ số',
-            desc: 'sắp quay',
-            press: () {},
-          ),
-
-            // 4. Tin tuc giai thuong
+              title: 'Xổ số',
+              desc: 'sắp quay',
+              press: () {},
+            ),
+            CommingTile(items: lottos,),
+            // 4. Tin tuc giai thuong    
+            
+            ListView.separated(     
+              shrinkWrap: true,                
+              physics: const NeverScrollableScrollPhysics(),             
+              itemCount: lottos.length,
+              separatorBuilder: (BuildContext context, int index) =>
+                  const SizedBox(height: 0),
+              itemBuilder: (context, index) {
+                return FeatureCard(item: lottos[index]);
+              }
+            ),        
 
             // 5. Cau chuyen doi thuc
                                  

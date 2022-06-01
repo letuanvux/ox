@@ -21,18 +21,21 @@ class SectionTitle extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [        
           RichText(
+            maxLines: 1, 
+            overflow: TextOverflow.ellipsis,
             text: TextSpan(
               text: title,
               style: TextStyle(
-                fontSize: 12,
-                color: Theme.of(context).colorScheme.primary,                
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.primary,   
+                             
               ),
               children: [
                 const TextSpan(text: ' '),
                 TextSpan(
                   text: desc,
                   style: const TextStyle(
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.normal,
                     color: Colors.black54,
                   ),
