@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 
-import '../pages/error404_page.dart';
-import '../pages/splash_page.dart';
-import '../pages/home_page.dart';
+import '../ui/error404_page.dart';
+import '../ui/home/home_page.dart';
+import '../ui/splash_page.dart';
 // auth
-import '../pages/auth/forgot_page.dart';
-import '../pages/auth/login_page.dart';
-import '../pages/auth/signup_page.dart';
-import '../pages/auth/otp_page.dart';
-import '../pages/auth/profile_page.dart';
-import '../pages/auth/verify_email_page.dart';
+import '../ui/auth/forgot_page.dart';
+import '../ui/auth/login_page.dart';
+import '../ui/auth/signup_page.dart';
+import '../ui/auth/otp_page.dart';
+import '../ui/auth/profile_page.dart';
+import '../ui/auth/verify_email_page.dart';
 // lotto
-import '../pages/lotto/lotto_page.dart';
-import '../pages/lotto/calendar_page.dart';
+import '../ui/lotto/lotto_page.dart';
+import '../ui/lotto/calendar_page.dart';
 
 class VLTxRoutes {
   static const home = '/home';
