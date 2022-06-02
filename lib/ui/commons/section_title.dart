@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:ox/ui/commons/app_header.dart';
 
 import '../themes.dart';
 
 class SectionTitle extends StatelessWidget {
   final String title;
   final String desc;
-  final VoidCallback press;
+  final String subtitle;
+  final EdgeInsetsGeometry? padding;
+  final VoidCallback? press;
   const SectionTitle({
     Key? key,
     required this.title,
-    this.desc ='',
-    required this.press,
+    this.desc = '',
+    this.subtitle = '',
+    this.padding = null,
+    this.press = null, 
   }) : super(key: key);
 
   @override
@@ -18,31 +23,10 @@ class SectionTitle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: VLTxTheme.defaultPadding),
       child: Row(      
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [        
-          RichText(
-            maxLines: 1, 
-            overflow: TextOverflow.ellipsis,
-            text: TextSpan(
-              text: title,
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,   
-                             
-              ),
-              children: [
-                const TextSpan(text: ' '),
-                TextSpan(
-                  text: desc,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black54,
-                  ),
-                )
-              ]
-            )
-          ),
+          AppHeader(title: title, desc: desc, subtitle: subtitle,),
           GestureDetector(
             onTap: press,
             child: Text(

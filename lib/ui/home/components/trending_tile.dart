@@ -4,9 +4,9 @@ import '../../lotto/models/lotto.dart';
 import '../../lotto/prize_detail_page.dart';
 import '../../themes.dart';
 
-class LastestTile extends StatelessWidget {
+class TrendingTile extends StatelessWidget {
   final List<Lotto> items;
-  const LastestTile({
+  const TrendingTile({
     Key? key, required this.items,
   }) : super(key: key);
 
@@ -65,7 +65,7 @@ class LastestTile extends StatelessWidget {
                           padding: const EdgeInsets.only(right: VLTxTheme.defaultPadding / 2),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: Colors.limeAccent.withOpacity(0.2),
+                              color: Colors.blueGrey.withOpacity(0.2),
                               borderRadius: const BorderRadius.only(
                                   bottomRight: Radius.circular(VLTxTheme.defaultRadius / 2),
                                   topLeft: Radius.circular(VLTxTheme.defaultRadius / 2))),

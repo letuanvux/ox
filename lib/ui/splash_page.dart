@@ -39,20 +39,36 @@ class _SplashPageState extends State<SplashPage> {
         appBar: AppBar(
           title: RichText(
             text: TextSpan(
-                text: "Nếu bạn mất tự tin. Hãy để chúng tôi ",
+                text: "Nếu bạn mất ",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.black54,
                 ),
                 children: [
-              TextSpan(
-                text: 'dẫn lối',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),              
-            ])),
+                TextSpan(
+                  text: 'tự tin',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),  
+                TextSpan(
+                  text: ". Hãy để chúng tôi ",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                ), 
+                TextSpan(
+                  text: 'dẫn lối',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),              
+              ]
+            )
+          ),
           centerTitle: true,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,

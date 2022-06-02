@@ -11,6 +11,7 @@ import 'models/long_number.dart';
 import 'models/lotto.dart';
 import 'models/max_miss_day.dart';
 import 'models/prize.dart';
+import 'models/prize_number.dart';
 import 'prize_bridge_page.dart';
 import 'prize_page.dart';
 import 'services/lotto_service.dart';
@@ -19,16 +20,18 @@ import 'services/prize_service.dart';
 
 class PrizeDetailPage extends StatefulWidget {
   final Lotto lotto;
-  final Prize? item;
+  final Prize? prize;
   final LottoBridge? bridge;
-  const PrizeDetailPage({Key? key, this.item, this.bridge, required this.lotto})
+  const PrizeDetailPage(
+      {Key? key, this.prize, this.bridge, required this.lotto})
       : super(key: key);
 
   @override
   _PrizeDetailPageState createState() => _PrizeDetailPageState();
 }
 
-class _PrizeDetailPageState extends State<PrizeDetailPage> with TickerProviderStateMixin {
+class _PrizeDetailPageState extends State<PrizeDetailPage>
+    with TickerProviderStateMixin {
   bool isLoading = false;
 
   late TabController tabController;
@@ -43,21 +46,30 @@ class _PrizeDetailPageState extends State<PrizeDetailPage> with TickerProviderSt
   final itemService = PrizeService();
   final lottoService = LottoService();
   final maxMissDayService = MaxMissDayService();
+  late Prize item;
 
   late List<Prize> lstItems;
   late List<LongNumber> lstLongNumbers;
   late List<MaxMissDay> lstMaxMissDays;
   late List<Prize> lstLastestPrizes;
+  late List<PrizeNumber> lstNumbers;
 
   Future<void> loadData() async {
     isLoading = true;
+    
+    item = (widget.prize ?? await itemService.getLastest(widget.lotto.id))!;
+
+    lstLastestPrizes =
+        await itemService.getOldItems(item.lotto, item.drawtime, 5);
+
+    lstNumbers = LottoHelper.getPrizeNumbers(item.json);
+
     tabController = TabController(length: 3, vsync: this);
 
     tabController.addListener(() {
       onTabChange();
     });
-    lstLastestPrizes = await itemService.getOldItems(
-        widget.item!.lotto, widget.item!.drawtime, 5); 
+    
     setState(() {
       isLoading = false;
     });
@@ -82,8 +94,6 @@ class _PrizeDetailPageState extends State<PrizeDetailPage> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    var lstNumbers = LottoHelper.getPrizeNumbers(widget.item!.json);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -120,7 +130,7 @@ class _PrizeDetailPageState extends State<PrizeDetailPage> with TickerProviderSt
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PrizeBridgePage(
                         lotto: widget.lotto,
-                        item: widget.item,
+                        item: item,
                       )));
             },
           ),
@@ -139,7 +149,7 @@ class _PrizeDetailPageState extends State<PrizeDetailPage> with TickerProviderSt
                       color: Color(0xff0f9d58),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [                        
+                        children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: CountryPickerUtils.getDefaultFlagImage(
@@ -157,7 +167,8 @@ class _PrizeDetailPageState extends State<PrizeDetailPage> with TickerProviderSt
                           ),
                           IconButton(
                             padding: const EdgeInsets.all(0),
-                            icon: Icon(Icons.list_alt_sharp, color: Colors.white),
+                            icon:
+                                Icon(Icons.list_alt_sharp, color: Colors.white),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PrizePage(
@@ -170,15 +181,14 @@ class _PrizeDetailPageState extends State<PrizeDetailPage> with TickerProviderSt
                     ),
                     // Prize
                     widget.lotto.isball
-                        ? PrizeBallCard(prize: widget.item!, items: lstNumbers)
+                        ? PrizeBallCard(prize: item, items: lstNumbers)
                         : PrizeCard(
-                            item: widget.item!,
+                            item: item,
                             bridge: widget.bridge,
                           ),
                     // Summary
-                    LottoSunmaryCard(lotto: widget.lotto, drawtime: widget.item!.drawtime),
-
-                    
+                    LottoSunmaryCard(
+                        lotto: widget.lotto, drawtime: item.drawtime),
                   ],
                 ),
               ),

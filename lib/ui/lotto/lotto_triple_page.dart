@@ -187,7 +187,7 @@ class _LottoTriplePageState extends State<LottoTriplePage> {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => PrizeDetailPage(
                                   lotto: widget.lotto,
-                                  item: widget.item,
+                                  prize: widget.item,
                                   bridge: lstBridges[index],
                                 )));
                           },

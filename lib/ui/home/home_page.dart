@@ -1,8 +1,8 @@
-import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../configs/routes.dart';
 import '../chat/messager_page.dart';
+import '../commons/app_header.dart';
 import '../commons/loading_progress.dart';
 import '../commons/section_title.dart';
 import '../lotto/models/lotto.dart';
@@ -13,6 +13,7 @@ import 'components/comming_tile.dart';
 import 'components/event_meeting_tile.dart';
 import 'components/lastest_tile.dart';
 import 'components/lotto_drawer.dart';
+import 'components/trending_tile.dart';
 import 'data/data.dart';
 
 class HomePage extends StatefulWidget {
@@ -99,6 +100,8 @@ class _HomePageState extends State<HomePage> {
       body: isLoading ? const LoadingProgress() : SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 1. Sự kiện nổi bật
             EventMeetingTile(items: EventMeeting.getFeaturedItems(),),
@@ -106,6 +109,7 @@ class _HomePageState extends State<HomePage> {
             SectionTitle(
               title: 'Kết quả',
               desc: 'mới nhất',
+              subtitle: 'Kết quả xổ số gần nhất',
               press: () {},
             ),
             LastestTile(items: lottos,),
@@ -113,11 +117,17 @@ class _HomePageState extends State<HomePage> {
             SectionTitle(
               title: 'Xổ số',
               desc: 'sắp quay',
+              subtitle: 'Kết quả sớm nhất',
               press: () {},
             ),
             CommingTile(items: lottos,),
             // 4. Tin tuc giai thuong    
-            
+            AppHeader(
+              title: 'Xổ số',
+              desc: 'yêu thích',
+              subtitle: 'Xổ số được mọi người yêu thích',                        
+            ),
+            TrendingTile(items: lottos,),
             ListView.separated(     
               shrinkWrap: true,                
               physics: const NeverScrollableScrollPhysics(),             
@@ -127,8 +137,7 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return FeatureCard(item: lottos[index]);
               }
-            ),        
-
+            ),  
             // 5. Cau chuyen doi thuc
                                  
           ],

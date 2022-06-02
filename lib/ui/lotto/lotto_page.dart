@@ -184,7 +184,7 @@ class _LottoPageState extends State<LottoPage> {
                                   var prize = await prizeService.getLastest(lstItems[index].id);
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => PrizeDetailPage(lotto: lstItems[index],item: prize,)
+                                      builder: (context) => PrizeDetailPage(lotto: lstItems[index], prize: prize,)
                                     )
                                   );
                                 }, 

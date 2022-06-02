@@ -35,7 +35,7 @@ class lottodrawer extends StatelessWidget {
                       var prize = await prizeService.getLastest(lottos[index].id);
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => PrizeDetailPage(lotto: lottos[index],item: prize,)
+                          builder: (context) => PrizeDetailPage(lotto: lottos[index], prize: prize,)
                         )
                       );
                     },

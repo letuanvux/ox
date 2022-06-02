@@ -196,7 +196,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                           Navigator.of(context).push(MaterialPageRoute(
                                               builder: (context) => PrizeDetailPage(
                                                     lotto: lottos[i],
-                                                    item: item,
+                                                    prize: item,
                                                   ))),
                                       ),
                                     ],

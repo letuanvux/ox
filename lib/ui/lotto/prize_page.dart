@@ -171,7 +171,7 @@ class _PrizePageState extends State<PrizePage> {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => PrizeDetailPage(
                                             lotto: widget.lotto!,
-                                            item: lstItems[index],
+                                            prize: lstItems[index],
                                           ))),
                             ),
                           ),
