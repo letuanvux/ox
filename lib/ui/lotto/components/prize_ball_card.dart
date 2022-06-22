@@ -19,7 +19,7 @@ class PrizeBallCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxDecoration,
+      decoration: VLTxTheme.decoration,
       padding: const EdgeInsets.all(5.0),
       child: Column(
         children: [
@@ -29,7 +29,7 @@ class PrizeBallCard extends StatelessWidget {
               RichText(
                 text: TextSpan(
                     text: 'Date: ',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,                      
                       fontWeight: FontWeight.normal,
                       color: Colors.black54,
@@ -37,7 +37,7 @@ class PrizeBallCard extends StatelessWidget {
                     children: [
                   TextSpan(
                     text: DateFormat('dd-MM-yyyy').format(prize.drawtime),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: Colors.black54,
@@ -47,7 +47,7 @@ class PrizeBallCard extends StatelessWidget {
               RichText(
                 text: TextSpan(
                     text: 'No: ',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,                      
                       fontWeight: FontWeight.normal,
                       color: Colors.black54,
@@ -64,8 +64,8 @@ class PrizeBallCard extends StatelessWidget {
                 ])),             
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
             child: Divider(
               height: 1,
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ox/ui/home/components/favorite_card.dart';
 
 import '../../configs/routes.dart';
 import '../chat/messager_page.dart';
@@ -7,7 +8,9 @@ import '../commons/loading_progress.dart';
 import '../commons/section_title.dart';
 import '../lotto/models/lotto.dart';
 import '../lotto/services/lotto_service.dart';
+import '../tabbar_page.dart';
 import '../themes.dart';
+import 'components/activity_tile.dart';
 import 'components/feature_card.dart';
 import 'components/comming_tile.dart';
 import 'components/event_meeting_tile.dart';
@@ -47,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: VLTxTheme.kBgLightColor,
-      drawer: lottodrawer(lottos: lottos),
+      drawer: LottoDrawer(lottos: lottos),
       appBar: AppBar(
         leading: Builder(builder: (context) {
           return IconButton(
@@ -61,7 +64,7 @@ class _HomePageState extends State<HomePage> {
         title: RichText(
             text: TextSpan(
                 text: "Chúc bạn gặp ",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
                   color: Colors.black54,                  
@@ -83,7 +86,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => MessagerPage()
+                  builder: (context) => const MessagerPage()
                 )
               );
             },
@@ -92,7 +95,11 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.login,
                 color: Theme.of(context).colorScheme.primary),
             onPressed: () {
-              Navigator.pushNamed(context, VLTxRoutes.login);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SliverWithTabBar()
+                )
+              );
             },
           ),
         ],
@@ -122,7 +129,7 @@ class _HomePageState extends State<HomePage> {
             ),
             CommingTile(items: lottos,),
             // 4. Tin tuc giai thuong    
-            AppHeader(
+            const AppHeader(
               title: 'Xổ số',
               desc: 'yêu thích',
               subtitle: 'Xổ số được mọi người yêu thích',                        
@@ -137,9 +144,27 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return FeatureCard(item: lottos[index]);
               }
+            ), 
+            ListView.separated(     
+              shrinkWrap: true,                
+              physics: const NeverScrollableScrollPhysics(),             
+              itemCount: lottos.length,
+              separatorBuilder: (BuildContext context, int index) =>
+                  const SizedBox(height: 0),
+              itemBuilder: (context, index) {
+                return FavoriteCard(
+                  title: lottos[index].code,
+                  subtitle: lottos[index].name,
+                  country: lottos[index].country,
+                  imgUrl: lottos[index].imgUrl,                  
+                  color: VLTxTheme.getColor(lottos[index].color),
+                  gradient: VLTxTheme.getColor(lottos[index].gradient),
+                  onTab: () {}
+                );
+              }
             ),  
             // 5. Cau chuyen doi thuc
-                                 
+                                            
           ],
         ),
       ),

@@ -100,14 +100,16 @@ class _LottoPageState extends State<LottoPage> {
         toolbarHeight: 40,
         leadingWidth: 0,
         title: RichText(
-            text: TextSpan(
-                text: 'Lotto ',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                children: const [
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          text: TextSpan(
+            text: 'Lotto ',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            children: const [
               TextSpan(
                 text: 'Items',
                 style: TextStyle(
@@ -116,7 +118,9 @@ class _LottoPageState extends State<LottoPage> {
                   color: Colors.black54,
                 ),
               )
-            ])),
+            ]
+          )
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.calendar_month,
@@ -155,21 +159,9 @@ class _LottoPageState extends State<LottoPage> {
                         itemCount: lstItems.length,
                         itemBuilder: (context, index) {
                           return Column(
-                            children: [
-                              if (index == 0) ...[
-                                const ListTile(
-                                  title: Text(
-                                    'Country/Code',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            children: [                              
                               if (inlineAdLoaded && index == 5) ...[
-                                Container(
+                                SizedBox(
                                   child: AdWidget(ad: inlineAd),
                                   width: inlineAd.size.width.toDouble(),
                                   height: inlineAd.size.height.toDouble(),
@@ -178,6 +170,7 @@ class _LottoPageState extends State<LottoPage> {
                                   height: 5,
                                 )
                               ],
+
                               LottoCard(
                                 item: lstItems[index],
                                 onTap: () async {
@@ -195,7 +188,7 @@ class _LottoPageState extends State<LottoPage> {
                       ]),
                     ),
               if (isLoading) ...[
-                LoadingProgress(),
+                const LoadingProgress(),
               ],
             ],
           );

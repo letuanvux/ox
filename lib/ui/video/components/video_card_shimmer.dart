@@ -9,21 +9,21 @@ class VideoCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        SizedBox(height: VLTxTheme.defaultPadding),
+      children: const [
+        SizedBox(height: VLTxTheme.padding),
         AspectRatio(
           aspectRatio: 1.75,
           child: Shimmer(),
         ),
         Padding(
-          padding: const EdgeInsets.all(VLTxTheme.defaultPadding),
+          padding: EdgeInsets.all(VLTxTheme.padding),
           child: SizedBox(
             height: 20,
             child: Shimmer(),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: VLTxTheme.defaultPadding),
+          padding: EdgeInsets.symmetric(horizontal: VLTxTheme.padding),
           child: SizedBox(
             height: 20,
             child: Shimmer(),

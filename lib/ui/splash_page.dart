@@ -40,7 +40,7 @@ class _SplashPageState extends State<SplashPage> {
           title: RichText(
             text: TextSpan(
                 text: "Nếu bạn mất ",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   color: Colors.black54,
                 ),
@@ -52,7 +52,7 @@ class _SplashPageState extends State<SplashPage> {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),  
-                TextSpan(
+                const TextSpan(
                   text: ". Hãy để chúng tôi ",
                   style: TextStyle(
                     fontSize: 14,
@@ -77,7 +77,7 @@ class _SplashPageState extends State<SplashPage> {
         ),
       body : Stack(
         children: [
-          AppBackground(image: VLTxTheme.bgImage),
+          const AppBackground(image: VLTxTheme.bgImage),
           SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -95,7 +95,7 @@ class _SplashPageState extends State<SplashPage> {
                           fit: BoxFit.contain,
                           child: Row(
                             children: [
-                              Text("Lotte",
+                              const Text("Lotte",
                                   style: TextStyle(
                                       color: Color.fromARGB(221, 19, 19, 19),
                                       fontWeight: FontWeight.w600)),
@@ -110,7 +110,7 @@ class _SplashPageState extends State<SplashPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 50,),
+                const SizedBox(height: 50,),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RichText(

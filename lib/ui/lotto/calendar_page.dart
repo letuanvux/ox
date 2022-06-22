@@ -143,8 +143,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     if (items.where((o) => o.lotto == lottos[i].id).length >
                         0) ...[
                       Container(
-                        decoration: boxDecoration,
-                        margin: EdgeInsets.only(bottom: 10.0),
+                        decoration: VLTxTheme.decoration,
+                        margin: const EdgeInsets.only(bottom: 10.0),
                         child: ExpansionPanelList(
                           animationDuration: Duration(milliseconds: 500),
                           dividerColor: Colors.red,

@@ -45,7 +45,7 @@ class _ScanPageState extends State<ScanPage> {
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w500,
                   ),
-                  children: [
+                  children: const [
                 TextSpan(
                   text: 'QR và Barcode',
                   style: TextStyle(

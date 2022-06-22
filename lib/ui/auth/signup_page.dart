@@ -49,7 +49,7 @@ class _SignupPageState extends State<SignupPage> {
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w500,
                   ),
-                  children: [
+                  children: const [
                 TextSpan(
                   text: 'your account?',
                   style: TextStyle(
@@ -64,7 +64,7 @@ class _SignupPageState extends State<SignupPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           shadowColor: Theme.of(context).colorScheme.primary.withOpacity(.24),
-          leading: BackButton(),
+          leading: const BackButton(),
           actions: [
             IconButton(
                 onPressed: () {
@@ -75,14 +75,14 @@ class _SignupPageState extends State<SignupPage> {
         ),
         body: Stack(
           children: [
-            AppBackground(image: VLTxTheme.bgImage),
+            const AppBackground(image: VLTxTheme.bgImage),
             Container(
               padding: EdgeInsets.all(10),
               width: double.infinity,
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.5),
                   borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20))),
+                      const BorderRadius.vertical(top: Radius.circular(20))),
               child: Column(
                 children: [
                   Expanded(child: AppLogo(),),
@@ -104,7 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                               textInputAction: TextInputAction.next,
                               textCapitalization: TextCapitalization.words,
                               decoration:
-                                  InputDecoration(hintText: 'Display Name'),
+                                  const InputDecoration(hintText: 'Display Name'),
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Required';
@@ -119,11 +119,11 @@ class _SignupPageState extends State<SignupPage> {
                               controller: _phoneController,
                               cursorColor: Colors.black,
                               textInputAction: TextInputAction.next,
-                              keyboardType: TextInputType.numberWithOptions(),
+                              keyboardType: const TextInputType.numberWithOptions(),
                               decoration:
-                                  InputDecoration(hintText: 'Phone number'),
+                                  const InputDecoration(hintText: 'Phone number'),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             ElevatedButton(
@@ -132,8 +132,8 @@ class _SignupPageState extends State<SignupPage> {
                                   minimumSize: const Size.fromHeight(40), // NEW
                                 ),
                                 onPressed: signUp,
-                                child: Text('Sign up')),
-                            SizedBox(
+                                child: const Text('Sign up')),
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(

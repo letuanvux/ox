@@ -10,6 +10,7 @@ class LottoBridge {
   late BridgeNumber prefix;
   late BridgeNumber suffix;
   late String number;
+  late String nextnumber;
   late int days;
   late int times;
   late bool isHasBridge;

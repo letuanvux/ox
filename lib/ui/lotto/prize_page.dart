@@ -107,7 +107,7 @@ class _PrizePageState extends State<PrizePage> {
           return Stack(
             children: [
               ListView.builder(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(VLTxTheme.padding),
                   controller: _scrollController,
                   itemBuilder: (context, index) {
                     if (index < lstItems.length) {
@@ -119,7 +119,7 @@ class _PrizePageState extends State<PrizePage> {
                             RichText(
                               text: TextSpan(
                                   text: '${widget.lotto!.code} |',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black54,
@@ -127,7 +127,7 @@ class _PrizePageState extends State<PrizePage> {
                                   children: [
                                 TextSpan(
                                   text: ' ${widget.lotto!.name}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,
                                     fontStyle: FontStyle.italic,
@@ -153,16 +153,38 @@ class _PrizePageState extends State<PrizePage> {
                             ),
                           ],
                           Container(
-                            decoration: boxDecoration,
-                            child: ListTile(
-                              leading: Text(
-                                DateFormat('dd-MM-yyyy')
-                                    .format(lstItems[index].drawtime),
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
+                            decoration: VLTxTheme.decoration,
+                            child: ListTile(                              
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Date: ',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black54,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: DateFormat('dd-MM-yyyy').format(lstItems[index].drawtime),
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Theme.of(context).colorScheme.primary
+                                          ),
+                                        )
+                                      ]
+                                    )
+                                  ),                                  
+                                  Text('#${lstItems[index].code}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              title: Text(lstItems[index].code),
                               subtitle: Text(
                                 lstItems[index].numbers ?? '',
                                 textAlign: TextAlign.justify,
@@ -181,16 +203,16 @@ class _PrizePageState extends State<PrizePage> {
                         ],
                       );
                     } else {
-                      return Container(
+                      return SizedBox(
                         width: constraints.maxWidth,
                         height: 50,
-                        child: Center(child: Text('Nothing more to load.')),
+                        child: const Center(child: Text('Nothing more to load.')),
                       );
                     }
                   },
                   itemCount: lstItems.length + (allloaded ? 1 : 0)),
               if (isLoading) ...[
-                LoadingProgress(),
+                const LoadingProgress(),
               ],
             ],
           );

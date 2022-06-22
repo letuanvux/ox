@@ -29,8 +29,8 @@ class _AppSearchState extends State<AppSearch> {
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
           hintText: widget.hintText, 
-          hintStyle: TextStyle(color: Colors.grey.shade400),
-          prefixIcon: Icon(Icons.search,color: Colors.grey.shade400,size: 20,),
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+          prefixIcon: Icon(Icons.search,color: Colors.grey.shade400, size: 20,),
           suffixIcon: widget.text.isNotEmpty
             ? GestureDetector(
                 child: const Icon(Icons.close),

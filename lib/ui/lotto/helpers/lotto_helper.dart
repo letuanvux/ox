@@ -63,7 +63,8 @@ class LottoHelper {
       String ab = i <= 9 ? '0' + i.toString() : i.toString();
       int days = 0;
       for (Prize item in prizes) {
-        var count = getPrizeNumbers(item.json)
+        var numbers = await getPrizeNumbers(item.json);
+        var count = numbers
             .where((element) => isMatch(ab, element.number) == true)
             .toList()
             .length;
@@ -89,18 +90,22 @@ class LottoHelper {
       if (i == 0) {
         var numbers = getPrizeNumbers(prizes[i].json);
         for (var item in numbers) {
-          if (lstItems.where((element) => element.number == item.number.substring(item.number.length - 2)).length == 0)
-          {
+          if (lstItems
+              .where((element) =>
+                  element.number ==
+                  item.number.substring(item.number.length - 2))
+              .isEmpty) {
             lstItems.add(MatchNumber(
-              number: item.number.substring(item.number.length - 2), days: 1));
-          }          
+                number: item.number.substring(item.number.length - 2),
+                days: 1));
+          }
         }
       } else {
         var lst = lstItems.where((element) => element.days >= i).toList();
-        if (lst.length > 0) {
+        if (lst.isNotEmpty) {
           List<PrizeNumber> numbers = getPrizeNumbers(prizes[i].json);
           for (var item in lstItems) {
-            if (numbers.where((o) => o.number == item.number).length > 0) {
+            if (numbers.where((o) => o.number == item.number).isNotEmpty) {
               // Cap nhat Days
               item.days += 1;
             }
@@ -149,7 +154,7 @@ class LottoHelper {
   }
 
   static Future<List<LottoBridge>> getBridges(
-      List<Prize> prizes, bool isReverse) async {
+      List<Prize> prizes, bool isReverse, bool isUnique) async {
     List<LottoBridge> lstBridges = [];
     for (var i = 0; i < prizes.length; i++) {
       if (i + 1 < prizes.length) {
@@ -163,7 +168,7 @@ class LottoHelper {
         } else {
           //kiem tra xem con cau ko thi tiep tuc loc
           var isHasBridge =
-              lstBridges.where((o) => o.isHasBridge == true).length > 0
+              lstBridges.where((o) => o.isHasBridge == true).isNotEmpty
                   ? true
                   : false;
           if (isHasBridge) {
@@ -177,14 +182,19 @@ class LottoHelper {
     }
     // Sort descending
     lstBridges.sort((a, b) => b.days.compareTo(a.days));
+
+    if (isUnique) {
+      lstBridges = unique(lstBridges);
+    }
+
     return lstBridges.where((element) => element.days > 1).toList();
   }
 
   static Future<List<LottoBridge>> getTriples(
-      List<Prize> prizes, bool isReverse) async {
+      List<Prize> prizes, bool isReverse, bool isUnique) async {
     List<LottoBridge> lstItems = [];
     // Lay danh sach cau 2 so
-    var bridges = await getBridges(prizes, isReverse);
+    var bridges = await getBridges(prizes, isReverse, isUnique);
     // Loc danh sach cau 3 so
     for (var i = 0; i < prizes.length; i++) {
       if (i + 1 < prizes.length) {
@@ -219,10 +229,13 @@ class LottoHelper {
                   item.days = 1;
                   item.times = times;
                   item.isHasBridge = true;
-                  //Thong tin so du doan
-                  item.number = getNumber(newPrize, objOption.group,
+                  item.number = getNumber(oldPrize, objOption.group,
                           objOption.position, iOption) +
                       bridges[i].number;
+                  //Thong tin so du doan
+                  item.nextnumber = getNumber(newPrize, objOption.group,
+                          objOption.position, iOption) +
+                      bridges[i].nextnumber;
                   lstItems.add(item);
                 }
               }
@@ -232,7 +245,7 @@ class LottoHelper {
           //Filter
           //kiem tra xem con cau ko thi tiep tuc loc
           var isHasBridge =
-              lstItems.where((o) => o.isHasBridge == true).length > 0
+              lstItems.where((o) => o.isHasBridge == true).isNotEmpty
                   ? true
                   : false;
           if (isHasBridge) {
@@ -246,7 +259,24 @@ class LottoHelper {
     }
 
     lstItems.sort((a, b) => b.days.compareTo(a.days));
+
+    if (isUnique) {
+      lstItems = unique(lstItems);
+    }
+
     return lstItems.where((element) => element.days > 1).toList();
+  }
+
+  static List<LottoBridge> unique(List<LottoBridge> bridges) {
+    var lstUniques = <LottoBridge>[];
+    for (var i = 0; i < bridges.length; i++) {
+      if (lstUniques
+          .where((o) => o.nextnumber == bridges[i].nextnumber)
+          .isEmpty) {
+        lstUniques.add(bridges[i]);
+      }
+    }
+    return lstUniques;
   }
 
   static String getNumberWithBridge(Prize prize, LottoBridge bridge) {
@@ -323,24 +353,26 @@ class LottoHelper {
                   group: objSuffix.group,
                   position: objSuffix.position,
                   index: iSuffix);
-              //Thong tin so du doan
-              String nextPrefixNumber = getNumber(
-                  newPrize, objPrefix.group, objPrefix.position, iPrefix);
-              String nextSuffixNumber = getNumber(
-                  newPrize, objSuffix.group, objSuffix.position, iSuffix);
-              bridge.number = nextPrefixNumber + nextSuffixNumber;
 
               //Thong tin so dau va so cuoi
               String prefixNumber =
                   objPrefix.number.substring(iPrefix, iPrefix + 1);
               String suffixNumber =
                   objSuffix.number.substring(iSuffix, iSuffix + 1);
+
               var times = countNumber(
                   newPrize, prefixNumber + suffixNumber, 2, isReverse);
               if (times > 0) {
                 bridge.days = 1;
                 bridge.times = times;
                 bridge.isHasBridge = true;
+                bridge.number = prefixNumber + suffixNumber;
+                //Thong tin so du doan
+                String nextPrefixNumber = getNumber(
+                    newPrize, objPrefix.group, objPrefix.position, iPrefix);
+                String nextSuffixNumber = getNumber(
+                    newPrize, objSuffix.group, objSuffix.position, iSuffix);
+                bridge.nextnumber = nextPrefixNumber + nextSuffixNumber;
               }
               //Add bridge to list
               lstBridges.add(bridge);

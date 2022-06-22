@@ -12,6 +12,8 @@ class Lotto {
   final int noOfRating;
   final bool isFavorite;
   final bool isFeatured;
+  final String color;
+  final String gradient;
 
   Lotto({
     required this.country,
@@ -27,6 +29,8 @@ class Lotto {
     this.noOfRating = 0,
     this.isFavorite = false,
     this.isFeatured = false,
+    this.color = '',
+    this.gradient = '',
   });
 
   Map<String, dynamic> toMap() {
@@ -42,6 +46,8 @@ class Lotto {
       'noOfRating': noOfRating,
       'isFavorite': isFavorite,
       'isFeatured': isFeatured,
+      'color': color,
+      'gradient': gradient,
     };
   }
 
@@ -59,6 +65,8 @@ class Lotto {
       noOfRating: json['noOfRating'] ?? 0,
       isFavorite: json['isFavorite'] ?? false,
       isFeatured: json['isFeatured'] ?? false,
+      color: json['color'] ?? '',
+      gradient: json['gradient'] ?? '',
     );
   }
 }

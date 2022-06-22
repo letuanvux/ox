@@ -21,7 +21,7 @@ class SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: VLTxTheme.defaultPadding),
+      padding: const EdgeInsets.symmetric(vertical: VLTxTheme.padding),
       child: Row(      
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

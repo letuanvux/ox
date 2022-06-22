@@ -5,8 +5,8 @@ import '../../lotto/models/lotto.dart';
 import '../../lotto/prize_detail_page.dart';
 import '../../lotto/services/prize_service.dart';
 
-class lottodrawer extends StatelessWidget {
-  const lottodrawer({
+class LottoDrawer extends StatelessWidget {
+  const LottoDrawer({
     Key? key,
     required this.lottos,
   }) : super(key: key);
@@ -28,7 +28,7 @@ class lottodrawer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8, bottom: 0),
                 child: Container(
-                  color: Color.fromRGBO(239,242,248, 1),
+                  color: const Color.fromRGBO(239,242,248, 1),
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () async {
@@ -37,7 +37,7 @@ class lottodrawer extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => PrizeDetailPage(lotto: lottos[index], prize: prize,)
                         )
-                      );
+                      );                      
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,24 +47,24 @@ class lottodrawer extends StatelessWidget {
                           radius: 15,                                         
                           child: ClipOval(
                             child: SizedBox.fromSize(
-                              size: Size.fromRadius(20), // Image radius
+                              size: const Size.fromRadius(20), // Image radius
                               child: CountryPickerUtils.getDefaultFlagImage(
                                 CountryPickerUtils.getCountryByIsoCode(
                                     lottos[index].country)),
                             ),                      
                           ),                    
                         ), 
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         Expanded(
                           child: Text(lottos[index].name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
                               color: Colors.black54,
                             ),
                           ),
                         ),
-                        Text('${lottos[index].code}',
+                        Text(lottos[index].code,
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey[600],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppName extends StatelessWidget {
-  final fontSize;
+  final double? fontSize;
   const AppName({Key? key, this.fontSize = 14}) : super(key: key);
 
   @override
@@ -9,7 +9,7 @@ class AppName extends StatelessWidget {
     return RichText(
         text: TextSpan(
             text: "Lotte",
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               color: Colors.black54,
               fontWeight: FontWeight.w600

@@ -26,7 +26,7 @@ class _ForgotPageState extends State<ForgotPage> {
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w500,
                 ),
-                children: [
+                children: const [
               TextSpan(
                 text: 'password',
                 style: TextStyle(

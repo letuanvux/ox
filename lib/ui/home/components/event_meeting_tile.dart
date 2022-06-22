@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ox/ui/events/detail_page.dart';
 
-import '../../../configs/constants.dart';
 import '../../themes.dart';
 import '../data/data.dart';
 
@@ -20,9 +20,9 @@ class _EventMeetingTileState extends State<EventMeetingTile> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: VLTxTheme.defaultPadding),
+      padding: const EdgeInsets.only(bottom: VLTxTheme.padding),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(VLTxTheme.defaultRadius),
+        borderRadius: BorderRadius.circular(VLTxTheme.radius),
         child: Container(
           height: 150.0,
           width: double.infinity,
@@ -38,12 +38,24 @@ class _EventMeetingTileState extends State<EventMeetingTile> {
             children: [
               PageView.builder(
                 itemCount: widget.items.length,
-                itemBuilder: (context, index) => Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(VLTxTheme.defaultRadius),
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(widget.items[index].imgUrl),
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => EventDetailPage(item: widget.items[index],)
+                      )
+                    );
+                  },
+                  child: Hero(
+                    tag: widget.items[index].imgUrl,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(VLTxTheme.radius),
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage(widget.items[index].imgUrl),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -54,14 +66,14 @@ class _EventMeetingTileState extends State<EventMeetingTile> {
                 },
               ),
               Positioned(
-                top: VLTxTheme.defaultPadding,
-                left: VLTxTheme.defaultPadding,
+                top: VLTxTheme.padding,
+                left: VLTxTheme.padding,
                 child: Row(
                   children: List.generate(
                       widget.items.length,
                       (index) => Padding(
                             padding:
-                                const EdgeInsets.only(left: VLTxTheme.defaultPadding / 4),
+                                const EdgeInsets.only(left: VLTxTheme.padding / 4),
                             child: IndicatorDot(
                               isActive: index == _currentIndex,
                             ),
@@ -75,7 +87,7 @@ class _EventMeetingTileState extends State<EventMeetingTile> {
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.2),
                   ),
-                  padding: const EdgeInsets.all(VLTxTheme.defaultPadding),
+                  padding: const EdgeInsets.all(VLTxTheme.padding),
                   child: Text(
                     widget.items[_currentIndex].name,
                     style: const TextStyle(
@@ -107,7 +119,7 @@ class IndicatorDot extends StatelessWidget {
       width: 8,
       decoration: BoxDecoration(
           color: isActive ? Colors.white : Colors.white38,
-          borderRadius: const BorderRadius.all(Radius.circular(VLTxTheme.defaultRadius))),
+          borderRadius: const BorderRadius.all(Radius.circular(VLTxTheme.radius))),
     );
   }
 }

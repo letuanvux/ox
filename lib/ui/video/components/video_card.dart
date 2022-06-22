@@ -14,11 +14,11 @@ class VideoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: VLTxTheme.defaultPadding),
+      margin: EdgeInsets.only(top: VLTxTheme.padding),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius:
-              const BorderRadius.all(Radius.circular(VLTxTheme.defaultPadding / 2)),
+              const BorderRadius.all(Radius.circular(VLTxTheme.padding / 2)),
           boxShadow: [
             BoxShadow(
               color: Color(0xFF282828).withOpacity(0.1),
@@ -36,9 +36,9 @@ class VideoCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(height: VLTxTheme.defaultPadding),
+          SizedBox(height: VLTxTheme.padding),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: VLTxTheme.defaultPadding),
+            padding: const EdgeInsets.symmetric(horizontal: VLTxTheme.padding),
             child: Text(
               video.title!,
               maxLines: 2,
@@ -47,10 +47,9 @@ class VideoCard extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: CircleAvatar(
+            leading: const CircleAvatar(
               backgroundColor: Colors.white,
-              backgroundImage:
-                  const AssetImage("assets/images/logo.png"),
+              backgroundImage: AssetImage("assets/images/logo.png"),
             ),
             title: Text(
               "Lotterix",

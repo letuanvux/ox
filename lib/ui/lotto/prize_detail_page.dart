@@ -1,10 +1,12 @@
 import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
 
+import 'views/prize_view_chat.dart';
+import 'views/prize_view_info.dart';
+import 'views/prize_view_summary.dart';
+
 import '../commons/loading_progress.dart';
-import 'components/lotto_summary_card.dart';
-import 'components/prize_ball_card.dart';
-import 'components/prize_card.dart';
+import '../themes.dart';
 import 'helpers/lotto_helper.dart';
 import 'models/bridge.dart';
 import 'models/long_number.dart';
@@ -56,20 +58,13 @@ class _PrizeDetailPageState extends State<PrizeDetailPage>
 
   Future<void> loadData() async {
     isLoading = true;
-    
+
     item = (widget.prize ?? await itemService.getLastest(widget.lotto.id))!;
+    lstNumbers = LottoHelper.getPrizeNumbers(item.json);
 
     lstLastestPrizes =
         await itemService.getOldItems(item.lotto, item.drawtime, 5);
 
-    lstNumbers = LottoHelper.getPrizeNumbers(item.json);
-
-    tabController = TabController(length: 3, vsync: this);
-
-    tabController.addListener(() {
-      onTabChange();
-    });
-    
     setState(() {
       isLoading = false;
     });
@@ -79,14 +74,13 @@ class _PrizeDetailPageState extends State<PrizeDetailPage>
   void initState() {
     super.initState();
     loadData();
+
+    tabController = TabController(length: 3, vsync: this);
+
   }
 
   @override
   void dispose() {
-    tabController.addListener(() {
-      onTabChange();
-    });
-
     tabController.dispose();
 
     super.dispose();
@@ -95,104 +89,157 @@ class _PrizeDetailPageState extends State<PrizeDetailPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        toolbarHeight: 40,
-        leading: Builder(builder: (context) {
-          return IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.blueGrey[300]),
-              onPressed: () => Navigator.of(context).pop());
-        }),
-        leadingWidth: 30,
-        title: RichText(
-            text: TextSpan(
-                text: 'Lotto Prize ',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).colorScheme.primary,
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              expandedHeight: 150.0,
+              floating: false,
+              pinned: true,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.black38),
+                onPressed: () => Navigator.of(context).pop()
+              ),
+              actions: [
+                IconButton(
+                  padding: const EdgeInsets.all(0),
+                  icon: Icon(
+                    Icons.calendar_month_outlined, 
+                    color: Theme.of(context).colorScheme.primary
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PrizePage(
+                              lotto: widget.lotto,
+                            )));
+                  },
                 ),
-                children: const [
-              TextSpan(
-                text: 'Details',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.black54,
+                IconButton(
+                  icon: Icon(
+                    Icons.bar_chart, 
+                    color: Theme.of(context).colorScheme.primary
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PrizeBridgePage(
+                              lotto: widget.lotto,
+                              item: item,
+                            )));
+                  },
                 ),
-              )
-            ])),
-        actions: [
-          IconButton(
-            icon:
-                Icon(Icons.book, color: Theme.of(context).colorScheme.primary),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PrizeBridgePage(
-                        lotto: widget.lotto,
-                        item: item,
-                      )));
-            },
-          ),
-        ],
-      ),
-      body: isLoading
-          ? const LoadingProgress()
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
-              child: SafeArea(
-                child: Column(
+              ],  
+              flexibleSpace: FlexibleSpaceBar(
+                //centerTitle: true,
+                expandedTitleScale: 1, 
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    // Lotto Info
-                    Container(
-                      height: 35,
-                      color: Color(0xff0f9d58),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: CountryPickerUtils.getDefaultFlagImage(
-                                CountryPickerUtils.getCountryByIsoCode(
-                                    widget.lotto.country)),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${widget.lotto.name}',
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16),
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(VLTxTheme.radius /2),
+                                topLeft: Radius.circular(VLTxTheme.radius /2 )),
+                      child: CountryPickerUtils.getDefaultFlagImage(
+                                                  CountryPickerUtils.getCountryByIsoCode(
+                                                      widget.lotto.country)),
+                    ), 
+                    const SizedBox(width: 5,),
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                            text: widget.lotto.code,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                          ),
-                          IconButton(
-                            padding: const EdgeInsets.all(0),
-                            icon:
-                                Icon(Icons.list_alt_sharp, color: Colors.white),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PrizePage(
-                                        lotto: widget.lotto,
-                                      )));
-                            },
-                          ),
-                        ],
+                            children: [
+                              TextSpan(
+                                text: ' - ${widget.lotto.name}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black54,
+                                ),
+                              )
+                            ]),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
+                    ),                      
+                  ],
+                ),
+                background: Image.asset(                    
+                  widget.lotto.imgUrl.isEmpty ? 'assets/images/logo.png' : widget.lotto.imgUrl,                        
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),              
+            SliverPersistentHeader(
+              delegate: _SliverAppBarDelegate(
+                TabBar(
+                  labelStyle: const TextStyle(
+                    fontSize: 12
+                  ),
+                  labelColor: Theme.of(context).colorScheme.primary,   
+                  unselectedLabelColor: Colors.black38, 
+                  controller: tabController, 
+                  tabs: const [
+                    Tab(
+                      icon: Text('Thông tin',), 
                     ),
-                    // Prize
-                    widget.lotto.isball
-                        ? PrizeBallCard(prize: item, items: lstNumbers)
-                        : PrizeCard(
-                            item: item,
-                            bridge: widget.bridge,
-                          ),
-                    // Summary
-                    LottoSunmaryCard(
-                        lotto: widget.lotto, drawtime: item.drawtime),
+                    Tab(
+                      icon: Text('Thống kê',), 
+                    ), 
+                    Tab(
+                      icon: Text('Thảo luận',), 
+                    ),                                                                      
                   ],
                 ),
               ),
+              pinned: true,
             ),
+          ];
+        },
+        body: Container(
+          padding: const EdgeInsets.all(10.0),
+          child:  TabBarView(
+            controller: tabController,
+            children: [
+              // Prize Info 
+              PrizeViewInfo(lotto: widget.lotto, prize: item, items: lstNumbers, bridge: widget.bridge),                
+              // Summary
+              PrizeViewSummary(lotto: widget.lotto, drawtime: item.drawtime),
+              // Summary
+              const PrizeViewChat(),
+            ]
+          )
+        )
+      ),
     );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._tabBar);
+
+  final TabBar _tabBar;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+     color: Colors.white,
+      child:_tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
   }
 }

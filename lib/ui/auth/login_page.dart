@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w500,
                   ),
-                  children: [
+                  children: const [
                 TextSpan(
                   text: 'your account?',
                   style: TextStyle(
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           shadowColor: Theme.of(context).colorScheme.primary.withOpacity(.24),
-          leading: BackButton(),
+          leading: const BackButton(),
           actions: [
             IconButton(
                 onPressed: () {
@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         body: Stack(
           children: [
-            AppBackground(image: VLTxTheme.bgImage),
+            const AppBackground(image: VLTxTheme.bgImage),
             SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.5),
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(20))
                     ),
                     child: Form(
                       key: _formKey,
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           EmailInput(controller: _emailController, hintText: 'Email', checkExisted: false),  
                           PasswordInput(controller: _passwordController, hintText: 'Password'),  
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                           
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 primary:

@@ -89,6 +89,19 @@ class PrizeService {
             : Prize.fromJson(snapshot.docs[0].data()));
   }
 
+  Future<Prize?> getNextPrize(String lotto, DateTime drawtime) {
+    return collects
+        .where('lotto', isEqualTo: lotto)
+        .where('drawtime', isGreaterThan: drawtime)
+        .orderBy('drawtime', descending: false)
+        .orderBy('code', descending: true)
+        .limit(1)
+        .get()
+        .then((snapshot) => snapshot.docs.isEmpty
+            ? null
+            : Prize.fromJson(snapshot.docs[0].data()));
+  }
+
   //Get all courses for instructor as Stream
   Stream<List<Prize>> whereAsStream(String lotto) {
     return collects.where('lotto', isEqualTo: lotto).snapshots().map(
@@ -112,6 +125,19 @@ class PrizeService {
     return collects
         .where('lotto', isEqualTo: lotto)
         .where('drawtime', isLessThan: drawtime)
+        .orderBy('drawtime', descending: true)
+        .orderBy('code', descending: true)
+        .limit(limit)
+        .get()
+        .then((snapshot) => snapshot.docs
+            .map((document) => Prize.fromJson(document.data()))
+            .toList());
+  }
+
+  Future<List<Prize>> getByMaxDate(String lotto, DateTime drawtime, int limit) {
+    return collects
+        .where('lotto', isEqualTo: lotto)
+        .where('drawtime', isLessThanOrEqualTo: drawtime)
         .orderBy('drawtime', descending: true)
         .orderBy('code', descending: true)
         .limit(limit)

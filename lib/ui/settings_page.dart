@@ -78,10 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
             
             const SizedBox(height: 50,),
             Center(
-              child: OutlineButton(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+              child: ElevatedButton(                
                 onPressed: () {},
                 child: const Text("SIGN OUT",
                     style: TextStyle(

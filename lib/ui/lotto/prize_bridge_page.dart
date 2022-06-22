@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../commons/loading_progress.dart';
 import '../themes.dart';
 import 'helpers/lotto_helper.dart';
-import 'lotto_triple_page.dart';
+import 'prize_triple_page.dart';
 import 'models/bridge.dart';
 import 'models/lotto.dart';
 import 'models/prize.dart';
@@ -29,14 +29,18 @@ class _PrizeBridgePageState extends State<PrizeBridgePage> {
   final itemService = PrizeService();
   bool isLoading = false;
   bool isReverse = false;
+  bool isUnique = false;
   late List<LottoBridge> lstBridges;
   late List<Prize> lstPrizes;
+  late Prize? matchPrize;
 
   Future<void> loadData() async {
     isLoading = true;
-    lstPrizes = await itemService.getOldItems(
+    lstPrizes = await itemService.getByMaxDate(
         widget.item!.lotto, widget.item!.drawtime, 60);
-    lstBridges = await LottoHelper.getBridges(lstPrizes, isReverse);
+    lstBridges = await LottoHelper.getBridges(lstPrizes, isReverse, isUnique);
+    matchPrize = await itemService.getNextPrize(
+        widget.item!.lotto, widget.item!.drawtime);
     setState(() {
       isLoading = false;
     });
@@ -79,131 +83,172 @@ class _PrizeBridgePageState extends State<PrizeBridgePage> {
               )
             ])),
         actions: [
-          Row(
-            children: [
-              const Text(
-                'Has Reverse',
-                style: TextStyle(fontSize: 13, color: Colors.black),
-              ),
-              Transform.scale(
-                scale: 0.7,
-                child: CupertinoSwitch(
-                  value: isReverse,
-                  onChanged: (bool value) {
-                    setState(() {
-                      isLoading = true;
-                      isReverse = value;
-                    });
-                    loadData();
-                    setState(() {
-                      isLoading = false;
-                    });
-                  },
-                ),
-              ),
-            ],
-          )
+          TextButton(
+            child: const Text('Find triples'),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PrizeTriplePage(
+                        lotto: widget.lotto,
+                        item: widget.item,
+                      )));
+            },
+          ),
         ],
       ),
       body: isLoading
           ? const LoadingProgress()
           : SingleChildScrollView(
+              padding: const EdgeInsets.all(VLTxTheme.padding),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            RichText(
-                                text: TextSpan(
-                                    text: '${widget.lotto.code} |',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black54,
-                                    ),
-                                    children: [
-                                  TextSpan(
-                                    text: ' ${widget.lotto.name}',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.black54,
-                                    ),
-                                  )
-                                ])),                            
-                            Text('Date: ' +DateFormat('dd-MM-yyyy').format(widget.item!.drawtime)),
-                          ],
-                        ),
-                        InkWell(
-                          child: Text(
-                            'Find triples',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Theme.of(context).colorScheme.primary,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            'Đảo ngược',
+                            style:
+                                TextStyle(fontSize: 13, color: Colors.black),
+                          ),
+                          Transform.scale(
+                            scale: 0.7,
+                            child: CupertinoSwitch(
+                              value: isReverse,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  isLoading = true;
+                                  isReverse = value;
+                                });
+                                loadData();
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              },
                             ),
                           ),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => LottoTriplePage(
-                                      lotto: widget.lotto,
-                                      item: widget.item,
-                                    )));
-                          },
-                        ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Text(
+                            'Khác nhau',
+                            style:
+                                TextStyle(fontSize: 13, color: Colors.black),
+                          ),
+                          Transform.scale(
+                            scale: 0.7,
+                            child: CupertinoSwitch(
+                              value: isUnique,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  isLoading = true;
+                                  isUnique = value;
+                                });
+                                loadData();
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: RichText(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                            text: '${widget.lotto.code} |',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black54,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: ' ${widget.lotto.name}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.black54,
+                                ),
+                              )
+                            ])),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Date: ' +
+                          DateFormat('dd-MM-yyyy')
+                              .format(widget.item!.drawtime)),
+                      if (matchPrize != null) ...[
+                        Text('Match Date: ' +
+                            DateFormat('dd-MM-yyyy')
+                                .format(matchPrize!.drawtime)),
                       ],
-                    ),
+                    ],
                   ),
                   lstBridges.isEmpty
-                      ? Text('Nothing')
+                      ? const Text('Nothing')
                       : ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.only(top: 10),
                           scrollDirection: Axis.vertical,
                           itemCount: lstBridges.length,
-                          itemBuilder: (BuildContext, index) {
+                          itemBuilder: (context, index) {
                             return Container(
                               padding: const EdgeInsets.all(10),
                               margin: const EdgeInsets.only(bottom: 10),
-                              decoration: LottoHelper.isHasNumber(widget.item!,
-                                      lstBridges[index].number, 2, isReverse)
-                                  ? matchDecoration
-                                  : boxDecoration,
+                              decoration: matchPrize != null &&
+                                      LottoHelper.isHasNumber(
+                                          matchPrize!,
+                                          lstBridges[index].nextnumber,
+                                          2,
+                                          isReverse)
+                                  ? VLTxTheme.matchDecoration
+                                  : VLTxTheme.decoration,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => PrizeDetailPage(
-                                            lotto: widget.lotto,
-                                            prize: widget.item,
-                                            bridge: lstBridges[index],
-                                          )));
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PrizeDetailPage(
+                                                lotto: widget.lotto,
+                                                prize: widget.item,
+                                                bridge: lstBridges[index],
+                                              )));
                                 },
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                            "${lstBridges[index].prefix.getLocation()}"),
-                                        Text(
-                                            "${lstBridges[index].suffix.getLocation()}"),
-                                      ],
+                                    Material(
+                                      textStyle: const TextStyle(fontSize: 12, color: Colors.black45),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(lstBridges[index]
+                                              .prefix
+                                              .getLocation()),
+                                          Text(lstBridges[index]
+                                              .suffix
+                                              .getLocation()),
+                                        ],
+                                      ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     Column(
@@ -218,7 +263,7 @@ class _PrizeBridgePageState extends State<PrizeBridgePage> {
                                             lstBridges[index].fromtime)),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     Expanded(
@@ -234,7 +279,7 @@ class _PrizeBridgePageState extends State<PrizeBridgePage> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     Column(
@@ -244,9 +289,8 @@ class _PrizeBridgePageState extends State<PrizeBridgePage> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          LottoHelper.getNumberWithBridge(
-                                              widget.item!, lstBridges[index]),
-                                          style: TextStyle(
+                                          lstBridges[index].nextnumber,
+                                          style: const TextStyle(
                                               fontSize: 20,
                                               color: Colors.green),
                                         )

@@ -14,7 +14,7 @@ class TrendingTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      padding: const EdgeInsets.only(bottom: VLTxTheme.defaultPadding),
+      padding: const EdgeInsets.only(bottom: VLTxTheme.padding),
       child: ListView.separated(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
@@ -32,7 +32,7 @@ class TrendingTile extends StatelessWidget {
               }, 
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(
-                  Radius.circular(VLTxTheme.defaultRadius),
+                  Radius.circular(VLTxTheme.radius),
                 ),
                 child: Container(
                   width: 140,
@@ -55,27 +55,27 @@ class TrendingTile extends StatelessWidget {
                   ),          
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(
-                      Radius.circular(VLTxTheme.defaultRadius),
+                      Radius.circular(VLTxTheme.radius),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          padding: const EdgeInsets.only(right: VLTxTheme.defaultPadding / 2),
+                          padding: const EdgeInsets.only(right: VLTxTheme.padding / 2),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               color: Colors.blueGrey.withOpacity(0.2),
                               borderRadius: const BorderRadius.only(
-                                  bottomRight: Radius.circular(VLTxTheme.defaultRadius / 2),
-                                  topLeft: Radius.circular(VLTxTheme.defaultRadius / 2))),
+                                  bottomRight: Radius.circular(VLTxTheme.radius / 2),
+                                  topLeft: Radius.circular(VLTxTheme.radius / 2))),
                           child: Row(
                             mainAxisAlignment : MainAxisAlignment.spaceBetween,
                             children: [
                               ClipRRect(
                                 borderRadius: const BorderRadius.only(
-                                  bottomRight: Radius.circular(VLTxTheme.defaultRadius),
-                                  topLeft: Radius.circular(VLTxTheme.defaultRadius)
+                                  bottomRight: Radius.circular(VLTxTheme.radius),
+                                  topLeft: Radius.circular(VLTxTheme.radius)
                                 ),
                                 child: CountryPickerUtils.getDefaultFlagImage(
                                         CountryPickerUtils.getCountryByIsoCode(
@@ -91,12 +91,12 @@ class TrendingTile extends StatelessWidget {
                         ),                  
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.all(VLTxTheme.defaultPadding / 2),
+                            padding: const EdgeInsets.all(VLTxTheme.padding / 2),
                             alignment: Alignment.center,                    
                             child: Center(
                               child: Text(
                                 items[index].name,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black45, 
                                   fontSize: 12,                        
                                 ),

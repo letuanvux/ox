@@ -27,7 +27,7 @@ class _EmailInputState extends State<EmailInput> {
         suffixIcon: widget.checkExisted
             ? _isCheckingEmail
                 ? Transform.scale(
-                    scale: 0.5, child: CircularProgressIndicator())
+                    scale: 0.5, child: const CircularProgressIndicator())
                 : null
             : null,
       ),
