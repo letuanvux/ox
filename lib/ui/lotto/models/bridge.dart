@@ -23,7 +23,7 @@ class LottoBridge {
     this.isHasBridge = false,    
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'lotto': lotto,

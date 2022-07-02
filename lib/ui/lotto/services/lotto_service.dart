@@ -7,7 +7,7 @@ class LottoService {
   //Set method can be used to update or add records,
   // when updating all existing data will be overwritten
   Future<void> setItem(Lotto item) async {
-    collects.doc(item.id).set(item.toMap());
+    collects.doc(item.id).set(item.toJson());
   }
 
   //Update just instructor field, merge into existing data
@@ -16,19 +16,32 @@ class LottoService {
     collects.doc(id).set({'code': code}, options);
   }
 
+  Future<void> setStatus(String id, bool status) async {
+    var options = SetOptions(merge: true);
+    collects.doc(id).set({'status': status}, options);
+  }
+
   //Add course with default firebase id, then update record with id
   Future<void> addItem(Lotto item) async {
-    var documentRef = await collects.add(item.toMap());
-    var createdId = documentRef.id;
-    // update id
-    collects.doc(createdId).update(
-      {'id': createdId},
-    );
+    final docItem = collects.doc();
+    item.id = docItem.id;
+    await docItem.set(item.toJson());
   }
 
   //Update entire course, any existing data will be merged
   Future<void> updateItem(Lotto item) async {
-    collects.doc(item.id).update(item.toMap());
+    collects.doc(item.id).update(item.toJson());
+  }
+
+  Future<void> updateTotalPrizes(String id, int total) async {
+    collects.doc(id).update({'totalPrizes': total});
+  }
+
+  Future<void> updateSummary(
+      String id, String minCode, String maxCode, int total) async {
+    collects
+        .doc(id)
+        .update({'minCode': minCode, 'maxCode': maxCode, 'totalPrizes': total});
   }
 
   Future<void> deleteItem(String id) async {
@@ -107,16 +120,5 @@ class LottoService {
         .toList());
   }
 
-  Stream<List<Lotto>> paging(
-    int page, {
-    int count = 10,
-  }) {
-    return collects.snapshots().skip(10 * (page - 1)).take(count).map(
-        (snapshot) => snapshot.docs
-            .map((document) => Lotto.fromJson(document.data()))
-            .toList());
-  }
-
-  
   
 }

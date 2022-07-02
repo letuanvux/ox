@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-
-import '../commons/app_background.dart';
+import '../../../vltx/vltx.dart';
 import '../map_page.dart';
 import '../scan_page.dart';
 import '../themes.dart';
@@ -86,8 +85,8 @@ class _MessagerPageState extends State<MessagerPage> with TickerProviderStateMix
         leading: IconButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return MapPage();
-              }));
+              return MapPage();
+            }));
           },
           icon: Icon(Icons.map_outlined),
           color: Theme.of(context).colorScheme.primary,
@@ -101,8 +100,8 @@ class _MessagerPageState extends State<MessagerPage> with TickerProviderStateMix
                 color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.w500,
               ),
-              children: [
-            TextSpan(
+              children: const [
+             TextSpan(
               text: 'friends',
               style: TextStyle(
                 fontSize: 16,
@@ -113,16 +112,16 @@ class _MessagerPageState extends State<MessagerPage> with TickerProviderStateMix
           ])),
         actions: [
           IconButton(
-            icon: Icon(Icons.qr_code_2_outlined),
+            icon: const Icon(Icons.qr_code_2_outlined),
             color: Theme.of(context).colorScheme.primary,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ScanPage();
+                return const ScanPage();
               }));
             },
           ),
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             color: Theme.of(context).colorScheme.primary,
             onPressed: () {},
           )
@@ -146,15 +145,15 @@ class _MessagerPageState extends State<MessagerPage> with TickerProviderStateMix
         ),
       ),      
       body: Stack(children: [
-        AppBackground(image: VLTxTheme.bgImage),
+        const AppBackground(image: VLTxTheme.bgImage),
         Column(
           children: [
             Container(
               color: Colors.grey[100],
               child: TabBar(
-                padding: EdgeInsets.only(top: 5),
+                padding: const EdgeInsets.only(top: 5),
                 controller: tabController, 
-                tabs: [
+                tabs: const [
                   Tab(icon: Text('Tin nhắn'), height: 30,),
                   Tab(icon: Text('Bạn bè'), height: 30,),
                   Tab(icon: Text('Danh bạ'), height: 30,),          
@@ -167,7 +166,7 @@ class _MessagerPageState extends State<MessagerPage> with TickerProviderStateMix
                 children: [
                   TabViewMessages(chatUsers: chatUsers),
                   TabViewFriends(chatUsers: chatUsers),
-                  Center(child: Text('Call')),
+                  const Center(child: Text('Call')),
                 ],
               ),
             ),

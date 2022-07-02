@@ -1,6 +1,6 @@
 import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/material.dart';
-import '../../commons/favorite_box.dart';
+import '../../../vltx/vltx.dart';
 import '../../lotto/models/lotto.dart';
 import '../../themes.dart';
 

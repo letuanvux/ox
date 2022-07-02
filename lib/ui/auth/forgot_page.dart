@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../configs/routes.dart';
+import '../../vltx/vltx.dart';
+import '../app.dart';
 import '../themes.dart';
-import '../commons/app_background.dart';
-import '../commons/app_logo.dart';
+import 'login_page.dart';
+import 'signup_page.dart';
 
 class ForgotPage extends StatefulWidget {
   const ForgotPage({ Key? key }) : super(key: key);
@@ -41,18 +42,20 @@ class _ForgotPageState extends State<ForgotPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         shadowColor: Theme.of(context).colorScheme.primary.withOpacity(.24),
-        leading: BackButton(),
+        leading: const BackButton(),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, VLTxRoutes.home);
+              onPressed: () {                
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const App();
+                }));             
               },
-              icon: Icon(Icons.home)),
+              icon: const Icon(Icons.home)),
         ],
       ),
       body: Stack(
         children: [
-          AppBackground(image: VLTxTheme.bgImage),          
+          const AppBackground(image: VLTxTheme.bgImage),          
           AppLogo(), 
           SafeArea(
             child: Column(
@@ -61,11 +64,11 @@ class _ForgotPageState extends State<ForgotPage> {
               children: [                
                 SingleChildScrollView(
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.5),
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(20))
                     ),
                     child: Form(                    
                       child: Column(
@@ -73,22 +76,22 @@ class _ForgotPageState extends State<ForgotPage> {
                           TextFormField(                              
                           cursorColor: Colors.black,
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.numberWithOptions(),
+                          keyboardType: const TextInputType.numberWithOptions(),
                           decoration:
-                              InputDecoration(hintText: 'Email'),
+                              const InputDecoration(hintText: 'Email'),
                           ),
                           TextFormField(                              
                             cursorColor: Colors.black,
                             textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.numberWithOptions(),
+                            keyboardType: const TextInputType.numberWithOptions(),
                             decoration:
-                                InputDecoration(hintText: 'Reset code'),
+                                const InputDecoration(hintText: 'Reset code'),
                           ),
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 "Don't receive the OTP? ",
                               ),
                               GestureDetector(
@@ -99,12 +102,13 @@ class _ForgotPageState extends State<ForgotPage> {
                                             .primary,
                                         fontWeight: FontWeight.bold)),
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, VLTxRoutes.login);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return const LoginPage();
+                                  }));     
                                 },
                               )
                             ]),
-                            SizedBox(height: 10.0),
+                            const SizedBox(height: 10.0),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 primary:
@@ -112,15 +116,17 @@ class _ForgotPageState extends State<ForgotPage> {
                                 minimumSize: const Size.fromHeight(40), // NEW
                               ),
                               onPressed: (){
-                                Navigator.pushNamed(context, VLTxRoutes.forgot);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return const ForgotPage();
+                                  })); 
                               },
-                              child: Text('Submit')
+                              child: const Text('Submit')
                             ),
-                            SizedBox(height: 20.0),
+                            const SizedBox(height: 20.0),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   "Don't have an account. ",
                                 ),
                                 GestureDetector(
@@ -130,9 +136,10 @@ class _ForgotPageState extends State<ForgotPage> {
                                               .colorScheme
                                               .primary,
                                           fontWeight: FontWeight.bold)),
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, VLTxRoutes.signup);
+                                  onTap: () {                                    
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                      return const SignupPage();
+                                    }));
                                   },
                                 )
                               ]),

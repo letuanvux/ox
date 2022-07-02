@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../configs/constants.dart';
+import '../constants.dart';
 import 'components/video_card.dart';
 import 'components/video_card_shimmer.dart';
 

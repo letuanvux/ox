@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ox/ui/home/components/favorite_card.dart';
 
-import '../../configs/routes.dart';
-import '../chat/messager_page.dart';
-import '../commons/app_header.dart';
-import '../commons/loading_progress.dart';
-import '../commons/section_title.dart';
+import '../../vltx/vltx.dart';
 import '../lotto/models/lotto.dart';
 import '../lotto/services/lotto_service.dart';
-import '../tabbar_page.dart';
 import '../themes.dart';
-import 'components/activity_tile.dart';
+import 'components/favorite_card.dart';
 import 'components/feature_card.dart';
 import 'components/comming_tile.dart';
 import 'components/event_meeting_tile.dart';
@@ -58,7 +52,8 @@ class _HomePageState extends State<HomePage> {
             onPressed: () =>
                 Scaffold.of(context).openDrawer(), // <-- Opens drawer.
           );
-        }),        
+        }), 
+        leadingWidth: 30,       
         backgroundColor: Colors.white,
         toolbarHeight: 40,
         title: RichText(
@@ -84,22 +79,22 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.message,
                 color: Theme.of(context).colorScheme.primary),
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const MessagerPage()
-                )
-              );
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) => const MessagerPage()
+              //   )
+              // );
             },
           ),
           IconButton(
             icon: Icon(Icons.login,
                 color: Theme.of(context).colorScheme.primary),
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const SliverWithTabBar()
-                )
-              );
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) => const SliverWithTabBar()
+              //   )
+              // );
             },
           ),
         ],

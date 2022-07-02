@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../configs/routes.dart';
-
 class OtpPage extends StatefulWidget {
   const OtpPage({ Key? key }) : super(key: key);
 
@@ -23,7 +21,7 @@ class _OtpPageState extends State<OtpPage> {
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w500,
                 ),
-                children: [
+                children: const [
               TextSpan(
                 text: 'code',
                 style: TextStyle(
@@ -41,10 +39,11 @@ class _OtpPageState extends State<OtpPage> {
         leading: BackButton(),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, VLTxRoutes.home);
-              },
-              icon: Icon(Icons.home)),
+            onPressed: () {
+              
+            },
+            icon: const Icon(Icons.home)
+          ),
         ],
       ),
     );

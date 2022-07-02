@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../commons/loading_progress.dart';
+import '../../vltx/vltx.dart';
 import '../themes.dart';
 
 import 'helpers/lotto_helper.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../configs/routes.dart';
-import '../commons/app_banner.dart';
+import '../../vltx/vltx.dart';
 import '../home/data/data.dart';
 import 'components/event_info.dart';
 
@@ -36,7 +35,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   IconButton(
                     icon: const Icon(Icons.home, color: Colors.black38),
                     onPressed: () {
-                      Navigator.pushNamed(context, VLTxRoutes.home);
+                      
                     },
                   ),
                 ],

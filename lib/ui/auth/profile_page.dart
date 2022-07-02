@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ox/ui/auth/components/profile_info.dart';
 
-import '../../configs/routes.dart';
-import '../themes.dart';
-import '../commons/app_background.dart';
-import '../commons/app_logo.dart';
 import 'components/profile_banner.dart';
+import 'components/profile_info.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({ Key? key }) : super(key: key);
@@ -37,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   IconButton(
                     icon: const Icon(Icons.home, color: Colors.black38),
                     onPressed: () {
-                      Navigator.pushNamed(context, VLTxRoutes.home);
+                      // Navigator.pushNamed(context, VLTxRoutes.home);
                     },                    
                   ),
                 ],

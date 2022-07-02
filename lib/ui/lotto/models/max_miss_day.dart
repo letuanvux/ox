@@ -11,7 +11,7 @@ class MaxMissDay {
     this.id = '',
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'lotto': lotto,

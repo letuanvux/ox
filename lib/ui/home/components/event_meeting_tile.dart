@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ox/ui/events/detail_page.dart';
 
+import '../../events/detail_page.dart';
 import '../../themes.dart';
 import '../data/data.dart';
 

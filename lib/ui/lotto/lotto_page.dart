@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'dart:io' show Platform;
 
-import '../../configs/routes.dart';
-import '../commons/app_search.dart';
-import '../commons/loading_progress.dart';
-import '../themes.dart';
-
-import 'package:country_pickers/country_pickers.dart';
-
+import '../../vltx/vltx.dart';
 import 'components/lotto_card.dart';
 import 'models/lotto.dart';
 import 'prize_detail_page.dart';
@@ -126,7 +120,7 @@ class _LottoPageState extends State<LottoPage> {
             icon: Icon(Icons.calendar_month,
                 color: Theme.of(context).colorScheme.primary),
             onPressed: () {
-              Navigator.pushNamed(context, VLTxRoutes.calendar);
+              
             },
           ),
         ],
@@ -140,10 +134,10 @@ class _LottoPageState extends State<LottoPage> {
                 children: [
                   if (staticAdLoaded) ...[
                     Container(
-                      child: AdWidget(ad: staticAd),
                       width: staticAd.size.width.toDouble(),
                       height: staticAd.size.height.toDouble(),
                       alignment: Alignment.bottomCenter,
+                      child: AdWidget(ad: staticAd),
                     ),
                   ],
                 

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../commons/app_search.dart';
-import '../commons/loading_progress.dart';
+import '../../vltx/vltx.dart';
 import '../themes.dart';
 import 'models/lotto.dart';
 import 'models/prize.dart';

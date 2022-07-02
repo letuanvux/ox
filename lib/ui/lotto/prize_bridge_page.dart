@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../commons/loading_progress.dart';
+import '../../vltx/vltx.dart';
 import '../themes.dart';
 import 'helpers/lotto_helper.dart';
 import 'prize_triple_page.dart';
@@ -15,14 +15,10 @@ import 'services/prize_service.dart';
 class PrizeBridgePage extends StatefulWidget {
   final Lotto lotto;
   final Prize? item;
-  const PrizeBridgePage({
-    Key? key,
-    required this.lotto,
-    this.item,
-  }) : super(key: key);
+  const PrizeBridgePage({Key? key, required this.lotto, this.item}) : super(key: key);
 
   @override
-  _PrizeBridgePageState createState() => _PrizeBridgePageState();
+  State<PrizeBridgePage> createState() => _PrizeBridgePageState();
 }
 
 class _PrizeBridgePageState extends State<PrizeBridgePage> {
@@ -184,13 +180,11 @@ class _PrizeBridgePageState extends State<PrizeBridgePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Date: ' +
-                          DateFormat('dd-MM-yyyy')
-                              .format(widget.item!.drawtime)),
+                      Text('Date: ${DateFormat('dd-MM-yyyy')
+                              .format(widget.item!.drawtime)}'),
                       if (matchPrize != null) ...[
-                        Text('Match Date: ' +
-                            DateFormat('dd-MM-yyyy')
-                                .format(matchPrize!.drawtime)),
+                        Text('Match Date: ${DateFormat('dd-MM-yyyy')
+                                .format(matchPrize!.drawtime)}'),
                       ],
                     ],
                   ),
@@ -308,3 +302,4 @@ class _PrizeBridgePageState extends State<PrizeBridgePage> {
     );
   }
 }
+

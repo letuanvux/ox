@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import '../models/lotto.dart';
+import '../models/max_miss_day.dart';
 import '../models/bridge.dart';
 import '../models/bridge_number.dart';
 import '../models/long_number.dart';
-import '../models/max_miss_day.dart';
 import '../models/prize.dart';
 import '../models/prize_number.dart';
 
@@ -51,7 +52,7 @@ class LottoHelper {
   // Lay danh sach du doan
   static List<String> getRandom(int max) {
     var lstNumbers = List<String>.generate(
-        max, (i) => i < 9 ? '0' + (i + 1).toString() : (i + 1).toString());
+        max, (i) => i < 9 ? '0${i + 1}' : (i + 1).toString());
     return lstNumbers;
   }
 
@@ -60,11 +61,10 @@ class LottoHelper {
       int max, List<MaxMissDay> maxmissDays) async {
     List<LongNumber> lstItems = [];
     for (var i = min; i <= max; i++) {
-      String ab = i <= 9 ? '0' + i.toString() : i.toString();
+      String ab = i <= 9 ? '0$i' : i.toString();
       int days = 0;
       for (Prize item in prizes) {
-        var numbers = await getPrizeNumbers(item.json);
-        var count = numbers
+        var count = getPrizeNumbers(item.json)
             .where((element) => isMatch(ab, element.number) == true)
             .toList()
             .length;
@@ -133,18 +133,40 @@ class LottoHelper {
         prizeNumbers.where((element) => element.number.length > 2).toList();
 
     for (var i = min; i <= max; i++) {
-      String ab = i <= 9 ? '0' + i.toString() : i.toString();
-
+      String ab = i <= 9 ? '0$i' : i.toString();
+ 
       lstItems.add(TripleNumber(
         number: ab,
-        items: prizeNumbers
-            .where((element) => element.number.endsWith(ab))
-            .map((item) => item.number
-                .substring(item.number.length - 3, item.number.length - 2))
-            .toList(),
+        items: prizeNumbers.where((element) => element.number.endsWith(ab))
+          .map((item) => item.number.substring(item.number.length - 3, item.number.length - 2)).toList(),
       ));
     }
 
+    return lstItems;
+  }
+
+  static Future<List<MaxMissDay>> getMaxMissDays(
+      Lotto lotto, List<Prize> prizes) async {
+    List<MaxMissDay> lstItems = [];
+    for (var i = lotto.min; i <= lotto.max; i++) {
+      String ab = i <= 9 ? '0$i' : i.toString();
+      int days = 0;
+      int maxdays = 0;
+      for (Prize item in prizes) {
+        var isHas = isHasNumber(item, ab, 2, false);
+        if (isHas) {
+          maxdays = maxdays < days ? days : maxdays;
+          days = 0;
+        } else {
+          days++;
+        }
+      }
+      lstItems.add(MaxMissDay(
+        lotto: lotto.id,
+        number: ab,
+        maxdays: maxdays,
+      ));
+    }
     return lstItems;
   }
 
@@ -187,7 +209,66 @@ class LottoHelper {
       lstBridges = unique(lstBridges);
     }
 
-    return lstBridges.where((element) => element.days > 1).toList();
+    return lstBridges.where((element) => element.days > 1).toList();    
+  }
+
+  static List<LottoBridge> unique(List<LottoBridge> bridges) {
+    var lstUniques = <LottoBridge>[];
+    for (var i = 0; i < bridges.length; i++) {
+      if (lstUniques
+          .where((o) => o.nextnumber == bridges[i].nextnumber)
+          .isEmpty) {
+        lstUniques.add(bridges[i]);
+      }
+    }
+    return lstUniques;
+  }
+
+  static String getNumberWithBridge(Prize prize, LottoBridge bridge) {
+    return getNumber(prize, bridge.prefix.group, bridge.prefix.position,
+            bridge.prefix.index) +
+        getNumber(prize, bridge.suffix.group, bridge.suffix.position,
+            bridge.suffix.index);
+  }
+
+  static String getNumberTriple(Prize prize, LottoBridge bridge) {
+    return bridge.option == null
+        ? ""
+        : getNumber(prize, bridge.option!.group, bridge.option!.position,
+                bridge.option!.index) +
+            getNumber(prize, bridge.prefix.group, bridge.prefix.position,
+                bridge.prefix.index) +
+            getNumber(prize, bridge.suffix.group, bridge.suffix.position,
+                bridge.suffix.index);
+  }
+
+  static String getNumber(Prize prize, int group, int position, int index) {
+    var item = getPrizeNumbers(prize.json)
+        .where((o) => o.group == group && o.position == position)
+        .single;
+    var number = item.number.substring(index, index + 1);
+    return number;
+  }
+
+  static bool isHasNumber(
+      Prize prize, String number, int length, bool isReverse) {
+    var count = countNumber(prize, number, length, isReverse);
+    return count > 0 ? true : false;
+  }
+
+  static int countNumber(
+      Prize prize, String number, int length, bool isReverse) {
+    var lstPrizeNumbers = getPrizeNumbers(prize.json);
+    var count = lstPrizeNumbers
+        .where((o) => o.number.length >= length)
+        .where((o) => o.number.endsWith(number))
+        .length;
+
+    var reverse = number.split('').reversed.join();
+    if (isReverse && number != reverse) {
+      count += lstPrizeNumbers.where((o) => o.number.endsWith(reverse)).length;
+    }
+    return count;
   }
 
   static Future<List<LottoBridge>> getTriples(
@@ -267,65 +348,6 @@ class LottoHelper {
     return lstItems.where((element) => element.days > 1).toList();
   }
 
-  static List<LottoBridge> unique(List<LottoBridge> bridges) {
-    var lstUniques = <LottoBridge>[];
-    for (var i = 0; i < bridges.length; i++) {
-      if (lstUniques
-          .where((o) => o.nextnumber == bridges[i].nextnumber)
-          .isEmpty) {
-        lstUniques.add(bridges[i]);
-      }
-    }
-    return lstUniques;
-  }
-
-  static String getNumberWithBridge(Prize prize, LottoBridge bridge) {
-    return getNumber(prize, bridge.prefix.group, bridge.prefix.position,
-            bridge.prefix.index) +
-        getNumber(prize, bridge.suffix.group, bridge.suffix.position,
-            bridge.suffix.index);
-  }
-
-  static String getNumberTriple(Prize prize, LottoBridge bridge) {
-    return bridge.option == null
-        ? ""
-        : getNumber(prize, bridge.option!.group, bridge.option!.position,
-                bridge.option!.index) +
-            getNumber(prize, bridge.prefix.group, bridge.prefix.position,
-                bridge.prefix.index) +
-            getNumber(prize, bridge.suffix.group, bridge.suffix.position,
-                bridge.suffix.index);
-  }
-
-  static String getNumber(Prize prize, int group, int position, int index) {
-    var item = getPrizeNumbers(prize.json)
-        .where((o) => o.group == group && o.position == position)
-        .single;
-    var number = item.number.substring(index, index + 1);
-    return number;
-  }
-
-  static bool isHasNumber(
-      Prize prize, String number, int length, bool isReverse) {
-    var count = countNumber(prize, number, length, isReverse);
-    return count > 0 ? true : false;
-  }
-
-  static int countNumber(
-      Prize prize, String number, int length, bool isReverse) {
-    var lstPrizeNumbers = getPrizeNumbers(prize.json);
-    var count = lstPrizeNumbers
-        .where((o) => o.number.length >= length)
-        .where((o) => o.number.endsWith(number))
-        .length;
-
-    var reverse = number.split('').reversed.join();
-    if (isReverse && number != reverse) {
-      count += lstPrizeNumbers.where((o) => o.number.endsWith(reverse)).length;
-    }
-    return count;
-  }
-
   static List<LottoBridge> findBridges(
       Prize newPrize, Prize oldPrize, bool isReverse) {
     List<LottoBridge> lstBridges = [];
@@ -341,7 +363,7 @@ class LottoHelper {
               //Thong tin cau tim thay
               var bridge = LottoBridge(
                 lotto: newPrize.lotto,
-                drawtime: oldPrize.drawtime,
+                drawtime: newPrize.drawtime,
               );
               //Thong tin so dau
               bridge.prefix = BridgeNumber(
@@ -353,26 +375,24 @@ class LottoHelper {
                   group: objSuffix.group,
                   position: objSuffix.position,
                   index: iSuffix);
+              //Thong tin so du doan
+              String nextPrefixNumber = getNumber(
+                  newPrize, objPrefix.group, objPrefix.position, iPrefix);
+              String nextSuffixNumber = getNumber(
+                  newPrize, objSuffix.group, objSuffix.position, iSuffix);
+              bridge.number = nextPrefixNumber + nextSuffixNumber;
 
               //Thong tin so dau va so cuoi
               String prefixNumber =
                   objPrefix.number.substring(iPrefix, iPrefix + 1);
               String suffixNumber =
                   objSuffix.number.substring(iSuffix, iSuffix + 1);
-
               var times = countNumber(
                   newPrize, prefixNumber + suffixNumber, 2, isReverse);
               if (times > 0) {
                 bridge.days = 1;
                 bridge.times = times;
                 bridge.isHasBridge = true;
-                bridge.number = prefixNumber + suffixNumber;
-                //Thong tin so du doan
-                String nextPrefixNumber = getNumber(
-                    newPrize, objPrefix.group, objPrefix.position, iPrefix);
-                String nextSuffixNumber = getNumber(
-                    newPrize, objSuffix.group, objSuffix.position, iSuffix);
-                bridge.nextnumber = nextPrefixNumber + nextSuffixNumber;
               }
               //Add bridge to list
               lstBridges.add(bridge);
@@ -463,9 +483,8 @@ class LottoHelper {
             bridge.prefix.position, bridge.prefix.index);
         String suffixNumber = getNumber(oldPrize, bridge.suffix.group,
             bridge.suffix.position, bridge.suffix.index);
-        var number = optionNumber + prefixNumber + suffixNumber;
-
-        var times = countNumber(newPrize, number, 3, false);
+        var times = countNumber(
+            newPrize, optionNumber + prefixNumber + suffixNumber, 3, false);
         if (times > 0) {
           bridges[i].days += 1;
           bridges[i].times += times;
@@ -477,4 +496,6 @@ class LottoHelper {
     }
     return bridges;
   }
+  
 }
+

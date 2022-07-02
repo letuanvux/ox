@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../configs/routes.dart';
+import '../app.dart';
 import 'components/chat_user_card.dart';
 import 'models/chat_user.dart';
 
@@ -53,7 +53,7 @@ class _ChatPageState extends State<ChatPage> {
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w500,
                 ),
-                children: [
+                children: const [
               TextSpan(
                 text: 'Messages',
                 style: TextStyle(       
@@ -68,7 +68,9 @@ class _ChatPageState extends State<ChatPage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, VLTxRoutes.home);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const App();
+              }));
             }, 
             icon: Icon(Icons.add,
               color: Theme.of(context).colorScheme.primary
@@ -76,7 +78,9 @@ class _ChatPageState extends State<ChatPage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, VLTxRoutes.home);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const App();
+                })); 
             }, 
             icon: Icon(Icons.qr_code,
               color: Theme.of(context).colorScheme.primary
@@ -84,7 +88,9 @@ class _ChatPageState extends State<ChatPage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, VLTxRoutes.home);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const App();
+                })); 
             }, 
             icon: Icon(Icons.search,
               color: Theme.of(context).colorScheme.primary
@@ -93,7 +99,7 @@ class _ChatPageState extends State<ChatPage> {
         ], 
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

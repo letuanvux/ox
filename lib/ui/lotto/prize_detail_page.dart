@@ -5,7 +5,6 @@ import 'views/prize_view_chat.dart';
 import 'views/prize_view_info.dart';
 import 'views/prize_view_summary.dart';
 
-import '../commons/loading_progress.dart';
 import '../themes.dart';
 import 'helpers/lotto_helper.dart';
 import 'models/bridge.dart';
@@ -29,11 +28,10 @@ class PrizeDetailPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PrizeDetailPageState createState() => _PrizeDetailPageState();
+  State<PrizeDetailPage> createState() => _PrizeDetailPageState();
 }
 
-class _PrizeDetailPageState extends State<PrizeDetailPage>
-    with TickerProviderStateMixin {
+class _PrizeDetailPageState extends State<PrizeDetailPage> with TickerProviderStateMixin {
   bool isLoading = false;
 
   late TabController tabController;
@@ -58,10 +56,8 @@ class _PrizeDetailPageState extends State<PrizeDetailPage>
 
   Future<void> loadData() async {
     isLoading = true;
-
     item = (widget.prize ?? await itemService.getLastest(widget.lotto.id))!;
     lstNumbers = LottoHelper.getPrizeNumbers(item.json);
-
     lstLastestPrizes =
         await itemService.getOldItems(item.lotto, item.drawtime, 5);
 
@@ -74,15 +70,12 @@ class _PrizeDetailPageState extends State<PrizeDetailPage>
   void initState() {
     super.initState();
     loadData();
-
     tabController = TabController(length: 3, vsync: this);
-
   }
 
   @override
   void dispose() {
     tabController.dispose();
-
     super.dispose();
   }
 

@@ -1,14 +1,11 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../configs/routes.dart';
-import '../../services/user_service.dart';
-import '../commons/app_background.dart';
-import '../commons/app_logo.dart';
+import '../../vltx/vltx.dart';
 import '../home/home_page.dart';
 import '../themes.dart';
+import 'services/user_service.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({Key? key}) : super(key: key);
@@ -39,7 +36,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       sendVerificationEmail();
 
       timer = Timer.periodic(
-        Duration(seconds: 3),
+        const Duration(seconds: 3),
         (_) => checkEmailVerified(),
       );
     }
@@ -51,7 +48,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       await user.sendEmailVerification();
 
       setState(() => canResendEmail = false);
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       setState(() => canResendEmail = true);
 
     } catch (e) {
@@ -79,7 +76,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? HomePage()
+      ? const HomePage()
       : Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -91,7 +88,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w500,
                     ),
-                    children: [
+                    children: const [
                   TextSpan(
                     text: 'your email',
                     style: TextStyle(
@@ -106,37 +103,37 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
             backgroundColor: Colors.transparent,
             elevation: 0,
             shadowColor: Theme.of(context).colorScheme.primary.withOpacity(.24),
-            leading: BackButton(),
+            leading: const BackButton(),
             actions: [
               IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, VLTxRoutes.home);
+                    // Navigator.pushNamed(context, VLTxRoutes.home);
                   },
-                  icon: Icon(Icons.home)),
+                  icon: const Icon(Icons.home)),
             ],
           ),
           body: Stack(
             children: [
-              AppBackground(image: VLTxTheme.bgImage),
+              const AppBackground(image: VLTxTheme.bgImage),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Spacer(),
+                  const Spacer(),
                   AppLogo(),
-                  Spacer(),
+                  const Spacer(),
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.5),
                         borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20))),
+                            const BorderRadius.vertical(top: Radius.circular(20))),
                     child: SingleChildScrollView(
                       child: Form(
                         key: _formKey,
                         child: Column(
                           children: [
-                            Text(
+                            const Text(
                               'A verification email has been sent to your email',
                               style: TextStyle(
                                 fontSize: 14,
@@ -144,26 +141,26 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                                 fontWeight: FontWeight.normal,
                               ),
                             ),                            
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Don't receive verify code? ",
                                   ),
                                   GestureDetector(
+                                    onTap: canResendEmail ? sendVerificationEmail : null,
                                     child: Text("Resent email",
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .primary,
                                             fontWeight: FontWeight.bold)),
-                                    onTap: canResendEmail ? sendVerificationEmail : null,
                                   )
                                 ]),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             ElevatedButton(
@@ -173,8 +170,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                                   minimumSize: const Size.fromHeight(40), // NEW
                                 ),
                                 onPressed: canResendEmail ? sendVerificationEmail : null,
-                                child: Text('Resent email')),
-                            SizedBox(
+                                child: const Text('Resent email')),
+                            const SizedBox(
                               height: 10,
                             ),
                             ElevatedButton(
@@ -183,14 +180,14 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                                   minimumSize: const Size.fromHeight(40), // NEW
                                 ),
                                 onPressed: () => FirebaseAuth.instance.signOut(),
-                                child: Text('Cancel')),
-                            SizedBox(
+                                child: const Text('Cancel')),
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "I'm already a member. ",
                                   ),
                                   GestureDetector(
@@ -201,8 +198,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                                                 .primary,
                                             fontWeight: FontWeight.bold)),
                                     onTap: () {
-                                      Navigator.pushNamed(
-                                          context, VLTxRoutes.login);
+                                      // Navigator.pushNamed(
+                                      //     context, VLTxRoutes.login);
                                     },
                                   )
                                 ]),

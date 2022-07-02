@@ -38,13 +38,13 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
       appBar: AppBar(        
         toolbarHeight: 50,
         backgroundColor: Colors.white,
-        leading: BackButton(), 
+        leading: const BackButton(), 
         leadingWidth: 0,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            DialUserPic(image: "assets/images/logo.png", size: 60,),
+            const DialUserPic(image: "assets/images/logo.png", size: 60,),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

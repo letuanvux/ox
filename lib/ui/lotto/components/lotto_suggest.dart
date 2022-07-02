@@ -1,7 +1,6 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-
 import '../helpers/lotto_helper.dart';
+
 import '../models/lotto.dart';
 import '../models/prize.dart';
 import '../services/prize_service.dart';
@@ -60,53 +59,41 @@ class _LottoSuggestState extends State<LottoSuggest> {
     });
     lstGroup = lstGroup.where((element) => element['count'] == 2).toList();
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        SizedBox(
-          height: 5,
-        ),
-        const Text("Danh sách số đã ra trong 5 ngày gần nhất"),
-        SizedBox(
-          height: 5,
-        ),        
-        SizedBox(          
-          child: GridView.count(              
-            crossAxisCount: 10,
-            mainAxisSpacing: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 2,
-            children: lstNumbers.map((String number) {
-              return NumberCard(
-                number: number,
-                color: Colors.red,
-              );
-            }).toList(),
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+            child: GridView.count(
+              crossAxisCount: 10,
+              mainAxisSpacing: 2,
+              shrinkWrap: true,
+              crossAxisSpacing: 2,
+              children: lstNumbers.map((String number) {
+                return NumberCard(
+                  number: number,
+                  color: Colors.red,
+                );
+              }).toList(),
+            ),
           ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        const Text("Thống kê theo ngày không ra"),
-        SizedBox(
-          height: 5,
-        ),
-        Wrap(
-          alignment: WrapAlignment.center,
-          spacing:8.0,
-          runSpacing: 8.0,
-          textDirection: TextDirection.ltr,
-          children: lstGroup.map((item) {
-            return Badge(
-              badgeContent: Text('${item['count']}', style: const TextStyle(color: Colors.white, fontSize: 13)),
-                badgeColor: Colors.orange,
-              child: NumberCard(number: item['number'], color: Colors.orange)
-            );
-          }).toList(),
-        ),        
-      ],
+          SizedBox(
+            height: 5,
+          ),
+          SizedBox(
+            child: GridView.count(
+              crossAxisCount: 10,
+              mainAxisSpacing: 2,
+              shrinkWrap: true,
+              crossAxisSpacing: 2,
+              children: lstGroup.map((item) {
+                return NumberCard(number: item['number'], color: Colors.orange);
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

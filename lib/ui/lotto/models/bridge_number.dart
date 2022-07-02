@@ -26,6 +26,6 @@ class BridgeNumber {
   }
   
   String getLocation() {
-    return "⌜G${group}P${position}I${index}⌟";
+    return "⌜G${group}P${position}I$index⌟";
   }
 }

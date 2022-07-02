@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../vltx/vltx.dart';
 import '../themes.dart';
-import '../commons/app_background.dart';
-import '../commons/app_logo.dart';
-import '../../configs/routes.dart';
-import '../commons/social_button.dart';
+
 import 'components/email_input.dart';
 import 'components/password_input.dart';
 
@@ -62,9 +60,10 @@ class _LoginPageState extends State<LoginPage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, VLTxRoutes.home);
+                  // Navigator.pushNamed(context, VLTxRoutes.home);
+                  
                 },
-                icon: Icon(Icons.home)),
+                icon: const Icon(Icons.home)),
           ],
         ),
         body: Stack(
@@ -77,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   AppLogo(), 
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.5),
@@ -96,8 +95,8 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, VLTxRoutes.verify);
+                                  // Navigator.pushNamed(
+                                  //     context, VLTxRoutes.verify);
                                 },
                                 child: Text(
                                   "Verify Email?",
@@ -111,8 +110,8 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, VLTxRoutes.forgot);
+                                // Navigator.pushNamed(
+                                //     context, VLTxRoutes.forgot);
                               },
                               child: Text(
                                 "Forgot Password?",
@@ -135,34 +134,34 @@ class _LoginPageState extends State<LoginPage> {
                                 minimumSize: const Size.fromHeight(40), // NEW
                               ),
                               onPressed: signIn,
-                              child: Text('Login')),
-                          Divider(
+                              child: const Text('Login')),
+                          const Divider(
                             height: 1,
                           ),
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
+                            children: const [
                               Text(
                                 "or connect with",
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
                           ),
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               LoginFacebook(),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               LoginGoogle(),
                             ],
                           ),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 "Don't have an account. ",
                               ),
                               GestureDetector(
@@ -173,8 +172,8 @@ class _LoginPageState extends State<LoginPage> {
                                             .primary,
                                         fontWeight: FontWeight.bold)),
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, VLTxRoutes.signup);
+                                  // Navigator.pushNamed(
+                                  //     context, VLTxRoutes.signup);
                                 },
                               )
                             ]),
@@ -196,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
       showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) => Center(
+          builder: (context) => const Center(
                 child: CircularProgressIndicator(),
               ));
       try {
@@ -205,9 +204,9 @@ class _LoginPageState extends State<LoginPage> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
-
+        
         if (user.user != null) {
-          Navigator.pushNamed(context, VLTxRoutes.home);
+          // Navigator.pushNamed(context, VLTxRoutes.home);
         }
       } on FirebaseAuthException catch (e) {
         print(e);

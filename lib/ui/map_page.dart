@@ -11,14 +11,14 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
+  static const CameraPosition _kGooglePlex =  CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
 
-  static final CameraPosition _kLake = CameraPosition(
+  static const CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(37.43296265331129, -122.08832357078792),
       tilt: 59.440717697143555,
@@ -28,17 +28,17 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,     
-      appBar: new AppBar(
+      appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         toolbarHeight: 40,
         leading: IconButton(
-          icon: Icon(Icons.account_circle_outlined, color: Colors.black54),
+          icon: const Icon(Icons.account_circle_outlined, color: Colors.black54),
           onPressed: () => Scaffold.of(context).openDrawer(),          
         ),
         leadingWidth: 20,
-        title: Text(
+        title: const Text(
           "Map",
           style: TextStyle(color: Colors.black54, fontSize: 16),
         ),        
@@ -77,7 +77,7 @@ class _MapPageState extends State<MapPage> {
                   color: Colors.orange[100],
                   child: InkWell(
                     splashColor: Colors.orange, // inkwell color
-                    child: SizedBox(
+                    child: const SizedBox(
                       width: 30,
                       height: 30,
                       child: Icon(Icons.my_location),
@@ -104,7 +104,7 @@ class _MapPageState extends State<MapPage> {
                     color: Colors.blue[100], // button color
                     child: InkWell(
                       splashColor: Colors.blue, // inkwell color
-                      child: SizedBox(
+                      child: const SizedBox(
                         width: 30,
                         height: 30,
                         child: Icon(Icons.add),
@@ -115,13 +115,13 @@ class _MapPageState extends State<MapPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ClipOval(
                   child: Material(
                     color: Colors.blue[100], // button color
                     child: InkWell(
                       splashColor: Colors.blue, // inkwell color
-                      child: SizedBox(
+                      child: const SizedBox(
                         width: 30,
                         height: 30,
                         child: Icon(Icons.remove),

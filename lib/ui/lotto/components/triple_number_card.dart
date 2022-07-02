@@ -58,7 +58,10 @@ class _TripleNumberCardState extends State<TripleNumberCard> {
             items = snapshot.data!;
 
             return Column(
-              children: [                
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 const Text("Thống kê bộ 3 số"),
                 SizedBox(
                   height: 360,

@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../configs/routes.dart';
-import '../../services/user_service.dart';
-import '../commons/app_background.dart';
-import '../commons/app_logo.dart';
+import '../../vltx/vltx.dart';
 import '../themes.dart';
 import 'components/email_input.dart';
 import 'components/password_input.dart';
+import 'services/user_service.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -68,16 +66,16 @@ class _SignupPageState extends State<SignupPage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, VLTxRoutes.home);
+                  // Navigator.pushNamed(context, VLTxRoutes.home);
                 },
-                icon: Icon(Icons.home)),
+                icon: const Icon(Icons.home)),
           ],
         ),
         body: Stack(
           children: [
             const AppBackground(image: VLTxTheme.bgImage),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               width: double.infinity,
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.5),
@@ -139,7 +137,7 @@ class _SignupPageState extends State<SignupPage> {
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "I'm already a member. ",
                                   ),
                                   GestureDetector(
@@ -150,8 +148,8 @@ class _SignupPageState extends State<SignupPage> {
                                                 .primary,
                                             fontWeight: FontWeight.bold)),
                                     onTap: () {
-                                      Navigator.pushNamed(
-                                          context, VLTxRoutes.login);
+                                      // Navigator.pushNamed(
+                                      //     context, VLTxRoutes.login);
                                     },
                                   )
                                 ]),
@@ -178,9 +176,9 @@ class _SignupPageState extends State<SignupPage> {
       showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) => Center(
-                child: CircularProgressIndicator(),
-              ));
+          builder: (context) => const Center(
+            child: CircularProgressIndicator(),
+          ));
       try {        
         var existed = await userService.isExistedEmail(_emailController.text.trim());
         if (!existed)
@@ -198,10 +196,10 @@ class _SignupPageState extends State<SignupPage> {
                 _emailController.text.trim(),
                 _phoneController.text.trim());
           }
-          Navigator.pushNamed(context, VLTxRoutes.verify);
+          // Navigator.pushNamed(context, VLTxRoutes.verify);
         }
         else {
-          Navigator.pushNamed(context, VLTxRoutes.forgot);
+          // Navigator.pushNamed(context, VLTxRoutes.forgot);
         }
       } on FirebaseAuthException catch (e) {
         print(e);

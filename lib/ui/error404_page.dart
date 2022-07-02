@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Error404Page extends StatelessWidget {
+  const Error404Page({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +24,7 @@ class Error404Page extends StatelessWidget {
               onPressed: () {},
               child: Text(
                 "Go Home".toUpperCase(),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           )

@@ -61,7 +61,10 @@ class _LongNumberCardState extends State<LongNumberCard> {
             items = snapshot.data!;
 
             return Column(
-              children: [                
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 const Text("Thống kê theo ngày không ra"),
                 SizedBox(
                   height: 360,
