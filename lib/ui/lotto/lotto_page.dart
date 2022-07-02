@@ -3,7 +3,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'dart:io' show Platform;
 
 import '../../vltx/vltx.dart';
+import '../themes.dart';
 import 'components/lotto_card.dart';
+import 'components/lotto_drawer.dart';
 import 'models/lotto.dart';
 import 'prize_detail_page.dart';
 import 'services/lotto_service.dart';
@@ -89,10 +91,18 @@ class _LottoPageState extends State<LottoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: VLTxTheme.kBgLightColor,
+      drawer: LottoDrawer(lottos: lstItems),
       appBar: AppBar(
-        backgroundColor: Colors.white,
         toolbarHeight: 40,
-        leadingWidth: 0,
+        leading: Builder(builder: (context) {
+          return IconButton(
+            icon: Icon(Icons.swap_horiz_sharp, color: Colors.blueGrey[300]),
+            onPressed: () =>
+                Scaffold.of(context).openDrawer(), // <-- Opens drawer.
+          );
+        }), 
+        leadingWidth: 30,  
         title: RichText(
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
